@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let rolesValidos = {
-    values: ["DJ", "USUARIO"],
+    values: ["EMPRESA", "USUARIO"],
     message: '{VALUE} no es un rol válido'
 }
 
