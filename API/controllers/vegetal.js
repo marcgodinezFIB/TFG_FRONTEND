@@ -23,10 +23,11 @@ function removeVegetal(req, res) {
     User.findById(req.user, (err, user) => {
         if (err) return res.status(500).send({ message: err })
         if (!user) return res.status(404).send({ message: "no existe usuario" })
-        if (user.role == "ADMIN") {
-            var vegetal = Vegetal.findById(req.body.vegetal_id)
-            vegetal.remove()
-            return res.status(201).send({ message: "Se ha eliminado correctamente el vegetal" })
+        if (user.role == "EMPRESA") {
+            Vegetal.findByIdAndDelete({ _id: req.params.id }, (err, not) => {
+                if (err) res.status(500).send(`${err}`)
+                else if (not) return res.status(201).send({ message: "Se ha eliminado correctamente el vegetal" })
+            })
         } else return res.status(403).send({ message: "No eres administrador" })
     })
 }

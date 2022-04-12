@@ -23,10 +23,11 @@ function removeRecipient(req, res) {
     User.findById(req.user, (err, user) => {
         if (err) return res.status(500).send({ message: err })
         if (!user) return res.status(404).send({ message: "no existe usuario" })
-        if (user.role == "ADMIN") {
-            var recipient = Recipient.findById(req.body.recipient_id)
-            recipient.remove()
-            return res.status(201).send({ message: "Se ha eliminado correctamente el envase" })
+        if (user.role == "EMPRESA") {
+            Recipient.findByIdAndDelete({ _id: req.params.id }, (err, not) => {
+                if (err) res.status(500).send(`${err}`)
+                else if (not) return res.status(201).send({ message: "Se ha eliminado correctamente el envase" })
+            })
         } else return res.status(403).send({ message: "No eres administrador" })
     })
 }
