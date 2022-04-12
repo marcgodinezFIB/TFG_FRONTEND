@@ -4,13 +4,13 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let rolesValidos = {
-    values: ["EMPRESA", "USUARIO"],
+    values: ["EMPRESA", "USUARIO","ADMIN"],
     message: '{VALUE} no es un rol válido'
 }
 
 let UserSchema = new Schema({
     email: { type: String, unique: true, lowercase: true, required: [true] },
-    displayName: {
+    username: {
         type: String,
         required: [true]
     },

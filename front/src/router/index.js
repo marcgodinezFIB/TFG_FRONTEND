@@ -1,9 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
 Vue.use(VueRouter)
 
-const routes = [{
+const routes = new VueRouter({
+    mode:'history',
+    base: process.env.BASE_URL,
+    routes: [
+        {
         path: '/signup',
         name: 'signup',
         component: () =>
@@ -20,13 +23,31 @@ const routes = [{
         name: 'profile',
         component: () =>
             import ('../components/Profile.vue')
+    },
+    {
+        path: '/addproduct',
+        name: 'AddProduct',
+        component: () =>
+            import ('../components/AddProduct.vue')
+    },
+    {
+        path: '/productlist',
+        name: 'ProductList',
+        component: () =>
+            import ('../components/ProductList.vue')
+    },
+    {
+        path: '/createtransport',
+        name: 'CreateTransport',
+        component: () =>
+            import ('../components/AdminTools/CreateTransport.vue')
+    },
+    {
+        path: '/admintools',
+        name: 'AdminTools',
+        component: () =>
+            import ('../components/AdminTools.vue')
     }
-]
+]});
 
-const router = new VueRouter({
-    mode: 'history',
-    base: process.env.BASE_URL,
-    routes
-})
-
-export default router
+export default routes

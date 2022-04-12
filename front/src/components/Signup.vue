@@ -1,55 +1,54 @@
 <template>
-    <div class="vue-tempalte">
-        <form @submit="signUp">
-            <h3>Sign Up</h3>
-
-            <div class="form-group">
-                <label>Username</label>
-                <input type="text" v-model="user.displayName" class="form-control form-control-lg"/>
-            </div>
-
-            <div class="form-group">
-                <label>Email address</label>
-                <input type="email" v-model="user.email" class="form-control form-control-lg" />
-            </div>
-
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" v-model="user.password" class="form-control form-control-lg" />
-            </div>
-            <div class="mt-4">
-                <button type="submit" class="btn btn-dark btn-lg btn-block" @click="signUp" style="float:right">Sign Up</button>
-            </div>
-        </form>
-    </div>
+    <b-card class="vue-tempalte forms">
+        <h3 style="text-align: center;
+        margin: 0;
+        line-height: 1;
+        padding-bottom: 20px;">Sign Up</h3>
+    
+        <div class="form-group">
+            <input type="text" placeholder="Username" v-model="username" class="form-control my-2 form-control-lg" />
+        </div>
+    
+        <div class="form-group">
+            <input type="text" placeholder="Email address" v-model="email" class="form-control my-2 form-control-lg"/>
+        </div>
+    
+        <div class="form-group">
+            <input type="password" placeholder="Password" v-model="password" class="form-control my-2 form-control-lg"/>
+        </div>
+        <div class="mt-4">
+            <b-button class="btn btn-dark btn-lg btn-block" @click="signUp" style="float:right">Sign Up</b-button>
+        </div>
+    </b-card>
 </template>
 
 <script>
-import AuthService from '@/services/AuthService.js';
-class User {
-    constructor(displayName,email,password){
-        this.displayName = displayName,
-        this.email = email,
-        this.password = password
-    }
-}
-    export default {
-  data() {
-    return { user: new User()
-    };
-  },
-  methods: {
-    async signUp() {
-      try {
-        const newuser = this.user
-        const response = await AuthService.signUp(newuser);
-        console.log(response)
-        this.msg = response.msg;
-      } catch (error) {
-        this.msg = error
-        
-      }
-    }
-  }
-};
+ import axios from 'axios';
+ export default {
+     data() {
+         return {
+             username: '',
+             email: '',
+             password: '',
+
+             error: ''
+         }
+     },
+     methods: {
+         signUp() {
+             let newUser = {
+                 username: this.username,
+                 email: this.email,
+                 password: this.password
+             }
+             axios.post('/signup', newUser)
+                 .then(res => {
+                     this.error = '';
+                     this.$router.push('/login');
+                 }, err => {
+                     this.error = err.response.data.error;
+                 })
+         }
+     }
+ };
 </script>
