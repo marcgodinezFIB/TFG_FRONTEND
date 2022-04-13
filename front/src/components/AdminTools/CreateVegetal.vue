@@ -27,7 +27,7 @@
 import axios from 'axios';
 
 export default {
-  name: 'CreateAnimal',
+  name: 'CreateVegetal',
 data() {
   return {
             name: '',

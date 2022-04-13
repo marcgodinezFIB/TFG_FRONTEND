@@ -7,20 +7,33 @@ const cities = require('cities')
 const cities2 = require('all-the-cities');
 
 function addProduct(req, res) {
+    //var animals = vegetals = transports = recipients = [];
     User.findById(req.user, (err, user) => {
         if (err) return res.status(500).send({ message: err })
         if (!user) return res.status(404).send({ message: "no existe usuario" })
         if (user.role == "EMPRESA") {
+            console.log(req.body)
+            // req.body.animalsList.foreach(animal => animals.push(animal._id));
+            // req.body.vegetalsList.foreach(vegetal => vegetals.push(vegetal._id));
+            // req.body.transportsList.foreach(transport => transports.push(transport._id));
+            // req.body.recipientsList.foreach(recipient => recipients.push(recipient._id));
+
             var product = new Product({
+                //General info
                 name: req.body.name,
                 description: req.body.description,
+                origin: req.body.origin,
                 type: req.body.type,
-                extraction: req.body.extraction,
-                elaboration: req.body.elaboration,
-                distribution: req.body.distribution,
-                use: req.body.use
+                //Procurement
+                waterObtention: req.body.waterObtention, //valor fijo
+                electricityObtention: req.body.electricityObtention, //valor fijo
+                animalList: req.body.animals,
+                vegetalList: req.body.vegetals,
+                //Transport
+                transportList: req.body.transports,
+                //Waste
+                recipientList: req.body.recipients
             })
-            if (!isAType(req.body.type)) return res.status(501).send({ message: "El tipo de producto no existe" });
             product.save();
             return res.status(201).send({ message: "Se ha añadido correctamente el producto" })
         } else return res.status(403).send({ message: "No eres administrador" })

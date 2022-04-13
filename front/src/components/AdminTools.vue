@@ -17,14 +17,29 @@
       <CreateTypeProd/>
         </b-card-text>
       </b-tab>
+      <b-tab title="Lista de tipo de productos">
+        <b-card-text>
+      <TypeProdList/>
+        </b-card-text>
+      </b-tab>
       <b-tab title="Añadir animal">
         <b-card-text>
       <CreateAnimal/>
         </b-card-text>
       </b-tab>
+      <b-tab title="Lista de animales">
+        <b-card-text>
+      <AnimalList/>
+        </b-card-text>
+      </b-tab>
       <b-tab title="Añadir vegetal">
         <b-card-text>
       <CreateVegetal/>
+        </b-card-text>
+      </b-tab>
+      <b-tab title="Lista de vegetales">
+        <b-card-text>
+      <VegetalList/>
         </b-card-text>
       </b-tab>
       <b-tab title="Añadir envase">
@@ -33,9 +48,9 @@
         </b-card-text>
       </b-tab>
       <br>
-      <b-tab title="Añadir envase">
+      <b-tab title="Lista de envases">
         <b-card-text>
-      <CreateRecipient/>
+      <RecipientList/>
         </b-card-text>
       </b-tab>
     </b-tabs>
@@ -47,6 +62,10 @@
 import axios from 'axios';
 import CreateTransport from './AdminTools/CreateTransport.vue'
 import TransportList from './AdminTools/TransportList.vue'
+import TypeProdList from './AdminTools/TypeProdList.vue'
+import AnimalList from './AdminTools/AnimalList.vue'
+import VegetalList from './AdminTools/VegetalList.vue'
+import RecipientList from './AdminTools/RecipientList.vue'
 
 import CreateTypeProd from './AdminTools/CreateTypeProd.vue'
 import CreateAnimal from './AdminTools/CreateAnimal.vue'
@@ -55,7 +74,7 @@ import CreateVegetal from './AdminTools/CreateVegetal.vue'
 
 export default {
   name: 'AdminTools',
-    components: { CreateTransport, CreateTypeProd,CreateAnimal, CreateRecipient,CreateVegetal, TransportList},
+    components: { CreateTransport, CreateTypeProd,CreateAnimal, CreateRecipient,CreateVegetal, TransportList, TypeProdList, AnimalList, VegetalList, RecipientList},
 
 data() {
   return { 

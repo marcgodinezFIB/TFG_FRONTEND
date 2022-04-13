@@ -158,7 +158,7 @@
                     <select v-model="selectedAnimal">
                       <option
                         v-for="(animal, _id) in listAnimals"
-                        :value="animal.name"
+                        :value="animal"
                         :key="_id"
                       >
                         {{ animal.name }}
@@ -225,7 +225,7 @@
                     <select v-model="selectedVegetal">
                       <option
                         v-for="(vegetal, _id) in listVegetals"
-                        :value="vegetal.name"
+                        :value="vegetal"
                         :key="_id"
                       >
                         {{ vegetal.name }}
@@ -283,7 +283,7 @@
                     </thead>
                     <tbody>
                       <tr v-for="(item, index) in rowDataAnimal" :key="item.id">
-                        <td>{{ item.selectedAnimal }}</td>
+                        <td>{{ item.selectedAnimal.name }}</td>
                         <td>{{ item.quantityAnimal }}</td>
                         <td>
                           <b-button @click="deleteAnimal(index)"
@@ -306,7 +306,7 @@
                         v-for="(item, index) in rowDataVegetal"
                         :key="item.id"
                       >
-                        <td>{{ item.selectedVegetal }}</td>
+                        <td>{{ item.selectedVegetal.name }}</td>
                         <td>{{ item.fertilizerVegetal }}</td>
                         <td>{{ item.pesticideVegetal }}</td>
                         <td>
@@ -319,12 +319,21 @@
                   </table>
                 </div>
               </div>
+              <div class="row mt-3">
+                <div class="col-6" style="text-align: end">
+                  <b-button @click="NextStep">Guardar y continuar</b-button>
+                </div>
+              </div>
             </div>
           </b-card-text>
         </b-tab>
         <b-tab title="Elaboración" :active="step === 3">
           <b-card-text>
-            <Elaboration />
+            <div class="row mt-3">
+              <div class="col-6" style="text-align: end">
+                <b-button @click="NextStep">Guardar y continuar</b-button>
+              </div>
+            </div>
           </b-card-text>
         </b-tab>
         <b-tab title="Transporte" :active="step === 4">
@@ -339,7 +348,7 @@
                     <select v-model="selectedTransport" @change="getMaxParams">
                       <option
                         v-for="(transport, _id) in listTransports"
-                        :value="transport.name"
+                        :value="transport"
                         :key="_id"
                       >
                         {{ transport.name }}
@@ -407,7 +416,7 @@
                     </thead>
                     <tbody>
                       <tr v-for="(item, index) in rowData" :key="item.id">
-                        <td>{{ item.selectedTransport }}</td>
+                        <td>{{ item.selectedTransport.name }}</td>
                         <td>{{ item.distance }}</td>
                         <td>{{ item.capacity }}</td>
                         <td>
@@ -431,7 +440,7 @@
         <b-tab title="Residuos" :active="step === 5">
           <b-card-text>
             <div class="row">
-              <div class="col">
+              <div class="col-6">
                 <div class="row">
                   <div class="col-3">
                     <div class="row"><label>Tipo de envase</label></div>
@@ -440,7 +449,7 @@
                     <select v-model="selectedRecipient">
                       <option
                         v-for="(recipient, _id) in listRecipients"
-                        :value="recipient.name"
+                        :value="recipient"
                         :key="_id"
                       >
                         {{ recipient.name }}
@@ -458,10 +467,46 @@
                       trim
                       type="number"
                       required
+                      v-model="dimensionsRecipient"
                       class="form-control my-2"
                     />
                   </div>
                 </div>
+                <div class="row">
+                  <!--style="text-align: end"> -->
+                  <div class="col">
+                    <b-button @click="addRecipient">Add</b-button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div id="table">
+                  <table class="table">
+                    <thead v-if="rowDataRecipient.length">
+                      <th scope="col">Recipient</th>
+                      <th scope="col">Dimensions</th>
+                    </thead>
+                    <tbody>
+                      <tr
+                        v-for="(item, index) in rowDataRecipient"
+                        :key="item.id"
+                      >
+                        <td>{{ item.selectedRecipient.name }}</td>
+                        <td>{{ item.dimensionsRecipient }}</td>
+                        <td>
+                          <b-button @click="deleteRecipient(index)"
+                            >Eliminar</b-button
+                          >
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-6" style="text-align: end">
+                <b-button @click="NextStep">Guardar y continuar</b-button>
               </div>
             </div>
           </b-card-text>
@@ -528,13 +573,142 @@
                   </div>
                 </div>
               </div>
+              <div class="col-6">
+                <div class="row">
+                  <span>Transporte</span>
+                  <hr />
+                </div>
+                <div id="table">
+                  <table class="table">
+                    <thead v-if="rowData.length">
+                      <th scope="col">Transport</th>
+                      <th scope="col">Capacity</th>
+                      <th scope="col">Distance</th>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(item, index) in rowData" :key="item.id">
+                        <td>{{ item.selectedTransport.name }}</td>
+                        <td>{{ item.distance }}</td>
+                        <td>{{ item.capacity }}</td>
+                        <td>
+                          <b-button @click="deleteTransport(index)"
+                            >Eliminar</b-button
+                          >
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="row">
+                <span>Envases</span>
+                <hr />
+              </div>
+                <div id="table">
+                  <table class="table">
+                    <thead v-if="rowDataRecipient.length">
+                      <th scope="col">Recipient</th>
+                      <th scope="col">Dimensions</th>
+                    </thead>
+                    <tbody>
+                      <tr
+                        v-for="(item, index) in rowDataRecipient"
+                        :key="item.id"
+                      >
+                        <td>{{ item.selectedRecipient.name }}</td>
+                        <td>{{ item.dimensionsRecipient }}</td>
+                        <td>
+                          <b-button @click="deleteRecipient(index)"
+                            >Eliminar</b-button
+                          >
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
             <div class="col-6">
               <div class="row">
                 <span>Obtención</span>
                 <hr />
               </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="row"><label>Agua:</label></div>
+                  <div class="row"><span>(en L)</span></div>
+                </div>
+                <div class="col-6">
+                  <b-form-input
+                    trim
+                    type="number"
+                    required
+                    disabled
+                    v-model="Water"
+                    class="form-control my-2"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="row"><label>Electricidad:</label></div>
+                  <div class="row"><span>(en KWh)</span></div>
+                </div>
+                <div class="col-6">
+                  <b-form-input
+                    trim
+                    type="number"
+                    disabled
+                    v-model="Electricity"
+                    class="form-control my-2"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <table class="table">
+                  <thead v-if="rowDataAnimal.length">
+                    <th scope="col">Name</th>
+                    <th scope="col">Cantidad (en Kg)</th>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(item, index) in rowDataAnimal" :key="item.id">
+                      <td>{{ item.selectedAnimal.name }}</td>
+                      <td>{{ item.quantityAnimal }}</td>
+                      <td>
+                        <b-button @click="deleteAnimal(index)"
+                          >Eliminar</b-button
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div id="table">
+                <table class="table">
+                  <thead v-if="rowDataVegetal.length">
+                    <th scope="col">Name</th>
+                    <th scope="col">Abono (en Kg)</th>
+                    <th scope="col">Pesticidas (en Kg)</th>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(item, index) in rowDataVegetal" :key="item.id">
+                      <td>{{ item.selectedVegetal.name }}</td>
+                      <td>{{ item.fertilizerVegetal }}</td>
+                      <td>{{ item.pesticideVegetal }}</td>
+                      <td>
+                        <b-button @click="deleteVegetal(index)"
+                          >Eliminar</b-button
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
+            <div>
+              <b-button @click="addNewProduct"
+                          >Guardar producto</b-button
+                        >
+              </div>
           </b-card-text>
         </b-tab>
       </b-tabs>
@@ -543,11 +717,9 @@
 </template>
 <script>
 import axios from "axios";
-import Elaboration from "./Product/Elaboration.vue";
 
 export default {
   name: "AddProduct",
-  components: { Elaboration },
   data() {
     return {
       step: 1,
@@ -559,7 +731,9 @@ export default {
       productOrigin: "",
 
       Water: "",
+      Electricity: "",
       listAnimals: [],
+      idAnimal: "",
       selectedAnimal: "",
       quantityAnimal: "",
       isAnimalType: null,
@@ -585,6 +759,15 @@ export default {
 
       listRecipients: [],
       selectedRecipient: "",
+      recipient: "",
+      dimensionsRecipient: "",
+      rowDataRecipient: [],
+      mensajeRecipient: "",
+
+      animalInstances: [],
+      vegetalInstances: [],
+      transportlInstances: [],
+      recipientInstances: []
     };
   },
   created() {
@@ -618,8 +801,8 @@ export default {
         else this.mensajeGeneralInfo = "";
     },
     NextStep(step) {
-      this.checkGeneralInfo(step);
-      this.step = step + 1;
+      //this.checkGeneralInfo(step);
+      this.step = this.step + 1;
     },
     addAnimal() {
       this.checkInfoAnimal();
@@ -690,7 +873,7 @@ export default {
     },
     checkInfoTransport() {
       if (
-        this.selectedTransport == "" ||
+        this.selectedTransport.name == "" ||
         this.capacity == "" ||
         this.distance == ""
       )
@@ -715,19 +898,152 @@ export default {
     },
     getMaxDistance() {
       this.maxDistance = this.listTransports.find(
-        (x) => x.name == this.selectedTransport
+        (x) => x.name == this.selectedTransport.name
       ).distance;
     },
     getMaxCapacity() {
       this.maxCapacity = this.listTransports.find(
-        (x) => x.name == this.selectedTransport
+        (x) => x.name == this.selectedTransport.name
       ).capacity;
+    },
+    addRecipient() {
+      //this.checkInfoRecipient();
+      //if (this.mensajeRecipient == "") {
+      var newRecipient = {
+        selectedRecipient: this.selectedRecipient,
+        dimensionsRecipient: this.dimensionsRecipient,
+      };
+      this.rowDataRecipient.push(newRecipient);
+      this.dimensionsRecipient = "";
+      //}
+    },
+    checkInfoRecipient() {
+      //if(this.selectedTransport == '' || this.capacity == '' || this.distance == '') this.mensajeTransport = 'Todos los campos son obligatorios'
+      //else if(this.capacity >= this.maxCapacity || this.distance >= this.maxDistance) this.mensajeTransport = 'Comprueba los valores máximos'
+    },
+    deleteRecipient(index) {
+      this.rowDataRecipient.splice(index, 1);
     },
     getAllRecipients() {
       axios.get("/getAllRecipients").then((res) => {
         this.listRecipients = res.data.message;
       });
     },
+    createAnimalInstances(){
+      this.rowDataAnimal.forEach(element => {
+        let newAnimalInstance = {
+          animal: element.selectedAnimal,
+          quantity: element.quantityAnimal
+
+        }
+        axios.post('/addAnimalInstance',newAnimalInstance, {headers: { authorization: "Bearer " + localStorage.getItem('token')}})
+        .then(res => {
+            this.error = '';
+            this.mensaje = 'Producto creado'
+            this.name = ''
+        }, err => {
+            this.error = err.response.data.error;
+        })
+      });
+    },
+    createVegetalInstances(){
+      this.rowDataVegetal.forEach(element => {
+        let newVegetalInstance = {
+          vegetal: element.selectedVegetal,
+          pesticide: element.pesticideVegetal,
+          fertilizer: element.fertilizerVegetal
+        }
+        axios.post('/addVegetalInstance',newVegetalInstance, {headers: { authorization: "Bearer " + localStorage.getItem('token')}})
+        .then(res => {
+            this.error = '';
+            this.mensaje = 'Producto creado'
+            this.name = ''
+        }, err => {
+            this.error = err.response.data.error;
+        })
+      });
+    },
+    createTransportInstances(){
+      this.rowData.forEach(element => {
+        let newTransportInstance = {
+          transport: element.selectedTransport,
+          capacity: element.capacity,
+          distance: element.distance
+        }
+        axios.post('/addTransportInstance',newTransportInstance, {headers: { authorization: "Bearer " + localStorage.getItem('token')}})
+        .then(res => {
+            this.error = '';
+            this.mensaje = 'Producto creado'
+            this.name = ''
+        }, err => {
+            this.error = err.response.data.error;
+        })
+      });
+
+    },
+    createRecipientInstances(){
+      this.rowDataRecipient.forEach(element => {
+        let newRecipientInstance = {
+          recipient: element.selectedRecipient,
+          dimensions: element.dimensionsRecipient,
+        }
+        axios.post('/addRecipientInstance',newRecipientInstance, {headers: { authorization: "Bearer " + localStorage.getItem('token')}})
+        .then(res => {
+            this.error = '';
+            this.mensaje = 'Producto creado'
+            this.name = ''
+        }, err => {
+            this.error = err.response.data.error;
+        })
+      });
+    },
+    addNewProduct(){
+      this.animalInstances = this.createAnimalInstances();
+      this.vegetalInstances = this.createVegetalInstances();
+      this.transportlInstances = this.createTransportInstances();
+      this.recipientInstances = this.createRecipientInstances();
+
+      let newProduct = {
+        //General info
+        name: this.productName,
+        description: this.productDescription,
+        origin: this.productOrigin,
+        typeProd: this.typeProd, //o Id?
+        //Procurement
+        water: this.Water,
+        electricity: this.electricity,
+        //crear las AnimalInstances
+        animals: this.animalInstances,
+        //crear las VegetalInstances
+        vegetals: this.vegetalInstances,
+        //crear las TransportInstances
+        //transports: this.rowData,
+        //crear las WasteInstances
+        //recipients: this.rowDataRecipient,
+      }
+      axios.post('/addProduct',newProduct, {headers: { authorization: "Bearer " + localStorage.getItem('token')}})
+      .then(res => {
+            this.error = '';
+            this.mensaje = 'Producto creado'
+            this.name = ''
+        }, err => {
+            this.error = err.response.data.error;
+        })
+
+    },
+        CreateNewVegetal() {
+    let newVegetal = {
+        name: this.name,
+        }
+    axios.post('/addVegetal',newVegetal, {headers: { authorization: "Bearer " + localStorage.getItem('token')}})
+        .then(res => {
+            this.error = '';
+            this.mensaje = 'Vegetal creado'
+            this.name = ''
+        }, err => {
+            this.error = err.response.data.error;
+        })
+}
   },
 };
 </script>

@@ -35,7 +35,7 @@
 import axios from 'axios';
 
 export default {
-  name: 'CreateAnimal',
+  name: 'CreateRecipient',
 data() {
   return {
             name: '',
