@@ -4,7 +4,7 @@
       <b-tabs pills small card vertical>
         <b-tab title="Información general" :active="step === 1">
           <b-card-text>
-            <GeneralInfo/>
+            <GeneralInfo />
             <!-- <div class="row">
               <div class="col">
                 <div class="row">
@@ -86,7 +86,7 @@
         </b-tab>
         <b-tab title="Obtención" :active="step === 2">
           <b-card-text>
-            <Procurement/>
+            <Procurement />
             <!-- <div class="row">
               <div class="col-6">
                 <div class="row">
@@ -341,7 +341,8 @@
         </b-tab>
         <b-tab title="Transporte" :active="step === 4">
           <b-card-text>
-            <div class="row">
+            <Transport />
+            <!-- <div class="row">
               <div class="col-6">
                 <div class="row">
                   <div class="col-6">
@@ -432,17 +433,18 @@
                   </table>
                 </div>
               </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col" style="text-align: end">
-                <b-button @click="NextStep">Guardar y continuar</b-button>
+              <div class="row mt-3">
+                <div class="col" style="text-align: end">
+                  <b-button @click="NextStep">Guardar y continuar</b-button>
+                </div>
               </div>
-            </div>
+            </div> -->
           </b-card-text>
         </b-tab>
         <b-tab title="Residuos" :active="step === 5">
           <b-card-text>
-            <div class="row">
+            <Waste/>
+            <!-- <div class="row">
               <div class="col-6">
                 <div class="row">
                   <div class="col-3">
@@ -476,7 +478,7 @@
                   </div>
                 </div>
                 <div class="row">
-                  <!--style="text-align: end"> -->
+                  style="text-align: end">
                   <div class="col">
                     <b-button @click="addRecipient">Add</b-button>
                   </div>
@@ -506,15 +508,15 @@
                   </table>
                 </div>
               </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-6" style="text-align: end">
-                <b-button @click="NextStep">Guardar y continuar</b-button>
+              <div class="row mt-3">
+                <div class="col-6" style="text-align: end">
+                  <b-button @click="NextStep">Guardar y continuar</b-button>
+                </div>
               </div>
-            </div>
+            </div> -->
           </b-card-text>
         </b-tab>
-        <b-tab title="Revisar y guardar" :active="step === 6">
+        <!-- <b-tab title="Revisar y guardar" :active="step === 6">
           <b-card-text>
             <div class="row">
               <div class="col-6">
@@ -603,9 +605,9 @@
                   </table>
                 </div>
                 <div class="row">
-                <span>Envases</span>
-                <hr />
-              </div>
+                  <span>Envases</span>
+                  <hr />
+                </div>
                 <div id="table">
                   <table class="table">
                     <thead v-if="rowDataRecipient.length">
@@ -708,25 +710,23 @@
               </div>
             </div>
             <div>
-              <b-button @click="addNewProduct"
-                          >Guardar producto</b-button
-                        >
-              </div>
+              <b-button @click="addNewProduct">Guardar producto</b-button>
+            </div>
           </b-card-text>
-        </b-tab>
+        </b-tab> -->
       </b-tabs>
     </b-card>
   </div>
 </template>
 <script>
 import axios from "axios";
-import GeneralInfo from "./Product/GeneralInfo.vue"
-import Procurement from "./Product/Procurement.vue"
-//import GeneralInfo from "./Product/GeneralInfo.vue"
-//import GeneralInfo from "./Product/GeneralInfo.vue"
+import GeneralInfo from "./Product/GeneralInfo.vue";
+import Procurement from "./Product/Procurement.vue";
+import Transport from "./Product/Transport.vue";
+import Waste from "./Product/Waste.vue"
 export default {
   name: "AddProduct",
-  components: {GeneralInfo, Procurement},
+  components: { GeneralInfo, Procurement, Transport, Waste },
   data() {
     return {
       step: 1,
@@ -737,44 +737,44 @@ export default {
       // productDescription: "",
       // productOrigin: "",
 
-      Water: "",
-      Electricity: "",
-      listAnimals: [],
-      idAnimal: "",
-      selectedAnimal: "",
-      quantityAnimal: "",
-      isAnimalType: null,
-      isVegetalType: null,
-      rowDataAnimal: [],
-      mensajeAnimal: "",
-      listVegetals: [],
-      selectedVegetal: "",
-      fertilizerVegetal: "",
-      pesticideVegetal: "",
-      rowDataVegetal: [],
-      mensajeVegetal: "",
+      // Water: "",
+      // Electricity: "",
+      // listAnimals: [],
+      // idAnimal: "",
+      // selectedAnimal: "",
+      // quantityAnimal: "",
+      // isAnimalType: null,
+      // isVegetalType: null,
+      // rowDataAnimal: [],
+      // mensajeAnimal: "",
+      // listVegetals: [],
+      // selectedVegetal: "",
+      // fertilizerVegetal: "",
+      // pesticideVegetal: "",
+      // rowDataVegetal: [],
+      // mensajeVegetal: "",
 
-      listTransports: [],
-      selectedTransport: "",
-      transport: "",
-      capacity: "",
-      distance: "",
-      maxDistance: "",
-      maxCapacity: "",
-      rowData: [],
-      mensajeTransport: "",
+      // listTransports: [],
+      // selectedTransport: "",
+      // transport: "",
+      // capacity: "",
+      // distance: "",
+      // maxDistance: "",
+      // maxCapacity: "",
+      // rowData: [],
+      // mensajeTransport: "",
 
-      listRecipients: [],
-      selectedRecipient: "",
-      recipient: "",
-      dimensionsRecipient: "",
-      rowDataRecipient: [],
-      mensajeRecipient: "",
+      // listRecipients: [],
+      // selectedRecipient: "",
+      // recipient: "",
+      // dimensionsRecipient: "",
+      // rowDataRecipient: [],
+      // mensajeRecipient: "",
 
       animalInstances: [],
       vegetalInstances: [],
       transportInstances: [],
-      recipientInstances: []
+      recipientInstances: [],
     };
   },
   created() {
@@ -785,10 +785,10 @@ export default {
   },
   mounted() {
     //this.getAllTypesProd();
-    this.getAllAnimals();
-    this.getAllVegetals();
-    this.getAllTransports();
-    this.getAllRecipients();
+    // this.getAllAnimals();
+    // this.getAllVegetals();
+    //this.getAllTransports();
+    // this.getAllRecipients();
   },
   methods: {
     // getAllTypesProd() {
@@ -864,196 +864,221 @@ export default {
     //     this.listAnimals = res.data.message;
     //   });
     // },
-    addTransport() {
-      this.checkInfoTransport();
-      if (this.mensajeTransport == "") {
-        var newTransport = {
-          selectedTransport: this.selectedTransport,
-          capacity: this.capacity,
-          distance: this.distance,
-        };
-        this.rowData.push(newTransport);
-        this.selectedTransport = "";
-        this.capacity = "";
-        this.distance = "";
-      }
-    },
-    checkInfoTransport() {
-      if (
-        this.selectedTransport.name == "" ||
-        this.capacity == "" ||
-        this.distance == ""
-      )
-        this.mensajeTransport = "Todos los campos son obligatorios";
-      else if (
-        this.capacity >= this.maxCapacity ||
-        this.distance >= this.maxDistance
-      )
-        this.mensajeTransport = "Comprueba los valores máximos";
-    },
-    deleteTransport(index) {
-      this.rowData.splice(index, 1);
-    },
-    getAllTransports() {
-      axios.get("/getAllTransports").then((res) => {
-        this.listTransports = res.data.message;
-      });
-    },
-    getMaxParams() {
-      this.getMaxDistance();
-      this.getMaxCapacity();
-    },
-    getMaxDistance() {
-      this.maxDistance = this.listTransports.find(
-        (x) => x.name == this.selectedTransport.name
-      ).distance;
-    },
-    getMaxCapacity() {
-      this.maxCapacity = this.listTransports.find(
-        (x) => x.name == this.selectedTransport.name
-      ).capacity;
-    },
-    addRecipient() {
-      //this.checkInfoRecipient();
-      //if (this.mensajeRecipient == "") {
-      var newRecipient = {
-        selectedRecipient: this.selectedRecipient,
-        dimensionsRecipient: this.dimensionsRecipient,
-      };
-      this.rowDataRecipient.push(newRecipient);
-      this.dimensionsRecipient = "";
-      //}
-    },
-    checkInfoRecipient() {
-      //if(this.selectedTransport == '' || this.capacity == '' || this.distance == '') this.mensajeTransport = 'Todos los campos son obligatorios'
-      //else if(this.capacity >= this.maxCapacity || this.distance >= this.maxDistance) this.mensajeTransport = 'Comprueba los valores máximos'
-    },
-    deleteRecipient(index) {
-      this.rowDataRecipient.splice(index, 1);
-    },
-    getAllRecipients() {
-      axios.get("/getAllRecipients").then((res) => {
-        this.listRecipients = res.data.message;
-      });
-    },
-    createAnimalInstances(){
-      this.rowDataAnimal.forEach(element => {
-        let newAnimalInstance = {
-          animal: element.selectedAnimal,
-          quantity: element.quantityAnimal
+    // addTransport() {
+    //   this.checkInfoTransport();
+    //   if (this.mensajeTransport == "") {
+    //     var newTransport = {
+    //       selectedTransport: this.selectedTransport,
+    //       capacity: this.capacity,
+    //       distance: this.distance,
+    //     };
+    //     this.rowData.push(newTransport);
+    //     this.selectedTransport = "";
+    //     this.capacity = "";
+    //     this.distance = "";
+    //   }
+    // },
+    // checkInfoTransport() {
+    //   if (
+    //     this.selectedTransport.name == "" ||
+    //     this.capacity == "" ||
+    //     this.distance == ""
+    //   )
+    //     this.mensajeTransport = "Todos los campos son obligatorios";
+    //   else if (
+    //     this.capacity >= this.maxCapacity ||
+    //     this.distance >= this.maxDistance
+    //   )
+    //     this.mensajeTransport = "Comprueba los valores máximos";
+    // },
+    // deleteTransport(index) {
+    //   this.rowData.splice(index, 1);
+    // },
+    // getAllTransports() {
+    //   axios.get("/getAllTransports").then((res) => {
+    //     this.listTransports = res.data.message;
+    //   });
+    // },
+    // getMaxParams() {
+    //   this.getMaxDistance();
+    //   this.getMaxCapacity();
+    // },
+    // getMaxDistance() {
+    //   this.maxDistance = this.listTransports.find(
+    //     (x) => x.name == this.selectedTransport.name
+    //   ).distance;
+    // },
+    // getMaxCapacity() {
+    //   this.maxCapacity = this.listTransports.find(
+    //     (x) => x.name == this.selectedTransport.name
+    //   ).capacity;
+    // },
+    // addRecipient() {
+    //   //this.checkInfoRecipient();
+    //   //if (this.mensajeRecipient == "") {
+    //   var newRecipient = {
+    //     selectedRecipient: this.selectedRecipient,
+    //     dimensionsRecipient: this.dimensionsRecipient,
+    //   };
+    //   this.rowDataRecipient.push(newRecipient);
+    //   this.dimensionsRecipient = "";
+    //   //}
+    // },
+    // checkInfoRecipient() {
+    //   //if(this.selectedTransport == '' || this.capacity == '' || this.distance == '') this.mensajeTransport = 'Todos los campos son obligatorios'
+    //   //else if(this.capacity >= this.maxCapacity || this.distance >= this.maxDistance) this.mensajeTransport = 'Comprueba los valores máximos'
+    // },
+    // deleteRecipient(index) {
+    //   this.rowDataRecipient.splice(index, 1);
+    // },
+    // getAllRecipients() {
+    //   axios.get("/getAllRecipients").then((res) => {
+    //     this.listRecipients = res.data.message;
+    //   });
+    // },
 
-        }
-        axios.post('/addAnimalInstance',newAnimalInstance, {headers: { authorization: "Bearer " + localStorage.getItem('token')}})
-        .then(res => {
-            this.error = '';
-            this.mensaje = 'Producto creado'
-            this.name = ''
-            this.animalInstances.push(newAnimalInstance)
-        }, err => {
-            this.error = err.response.data.error;
-        })
-      });
-    },
-    createVegetalInstances(){
-      this.rowDataVegetal.forEach(element => {
-        let newVegetalInstance = {
-          vegetal: element.selectedVegetal,
-          pesticide: element.pesticideVegetal,
-          fertilizer: element.fertilizerVegetal
-        }
-        axios.post('/addVegetalInstance',newVegetalInstance, {headers: { authorization: "Bearer " + localStorage.getItem('token')}})
-        .then(res => {
-            this.error = '';
-            this.mensaje = 'Producto creado'
-            this.name = ''
-            this.vegetalInstances.push(newVegetalInstance)
-        }, err => {
-            this.error = err.response.data.error;
-        })
-      });
-    },
-    createTransportInstances(){
-      this.rowData.forEach(element => {
-        let newTransportInstance = {
-          transport: element.selectedTransport,
-          capacity: element.capacity,
-          distance: element.distance
-        }
-        axios.post('/addTransportInstance',newTransportInstance, {headers: { authorization: "Bearer " + localStorage.getItem('token')}})
-        .then(res => {
-            this.error = '';
-            this.mensaje = 'Producto creado'
-            this.name = ''
-            this.transportInstances.push(newTransportInstance)
-        }, err => {
-            this.error = err.response.data.error;
-        })
-      });
 
-    },
-    createRecipientInstances(){
-      this.rowDataRecipient.forEach(element => {
-        let newRecipientInstance = {
-          recipient: element.selectedRecipient,
-          dimensions: element.dimensionsRecipient,
-        }
-        axios.post('/addRecipientInstance',newRecipientInstance, {headers: { authorization: "Bearer " + localStorage.getItem('token')}})
-        .then(res => {
-            this.error = '';
-            this.mensaje = 'Producto creado'
-            this.name = ''
-            this.recipientInstances.push(newRecipientInstance)
-        }, err => {
-            this.error = err.response.data.error;
-        })
-      });
-    },
-    addNewProduct(){
-      this.createAnimalInstances();
-      this.createVegetalInstances();
-      this.createTransportInstances();
-      this.createRecipientInstances();
-      let newProduct = {
-        //General info
-        name: this.productName,
-        description: this.productDescription,
-        origin: this.productOrigin,
-        typeProd: this.typeProd, //o Id?
-        //Procurement
-        water: this.Water,
-        electricity: this.Electricity,
-        //crear las AnimalInstances
-        animals: this.animalInstances,
-        //crear las VegetalInstances
-        vegetals: this.vegetalInstances,
-        //crear las TransportInstances
-        transports: this.transportInstances,
-        //crear las WasteInstances
-        recipients: this.recipientInstances,
-      }
-      axios.post('/addProduct',newProduct, {headers: { authorization: "Bearer " + localStorage.getItem('token')}})
-      .then(res => {
-            this.error = '';
-            this.mensaje = 'Producto creado'
-            this.name = ''
-        }, err => {
-            this.error = err.response.data.error;
-        })
 
-    },
-        CreateNewVegetal() {
-    let newVegetal = {
-        name: this.name,
-        }
-    axios.post('/addVegetal',newVegetal, {headers: { authorization: "Bearer " + localStorage.getItem('token')}})
-        .then(res => {
-            this.error = '';
-            this.mensaje = 'Vegetal creado'
-            this.name = ''
-        }, err => {
-            this.error = err.response.data.error;
-        })
-}
+    // createAnimalInstances() {
+    //   this.rowDataAnimal.forEach((element) => {
+    //     let newAnimalInstance = {
+    //       animal: element.selectedAnimal,
+    //       quantity: element.quantityAnimal,
+    //     };
+    //     axios
+    //       .post("/addAnimalInstance", newAnimalInstance, {
+    //         headers: {
+    //           authorization: "Bearer " + localStorage.getItem("token"),
+    //         },
+    //       })
+    //       .then(
+    //         (res) => {
+    //           this.error = "";
+    //           this.mensaje = "Producto creado";
+    //           this.name = "";
+    //           this.animalInstances.push(newAnimalInstance);
+    //         },
+    //         (err) => {
+    //           this.error = err.response.data.error;
+    //         }
+    //       );
+    //   });
+    // },
+    // createVegetalInstances() {
+    //   this.rowDataVegetal.forEach((element) => {
+    //     let newVegetalInstance = {
+    //       vegetal: element.selectedVegetal,
+    //       pesticide: element.pesticideVegetal,
+    //       fertilizer: element.fertilizerVegetal,
+    //     };
+    //     axios
+    //       .post("/addVegetalInstance", newVegetalInstance, {
+    //         headers: {
+    //           authorization: "Bearer " + localStorage.getItem("token"),
+    //         },
+    //       })
+    //       .then(
+    //         (res) => {
+    //           this.error = "";
+    //           this.mensaje = "Producto creado";
+    //           this.name = "";
+    //           this.vegetalInstances.push(newVegetalInstance);
+    //         },
+    //         (err) => {
+    //           this.error = err.response.data.error;
+    //         }
+    //       );
+    //   });
+    // },
+    // createTransportInstances() {
+    //   this.rowData.forEach((element) => {
+    //     let newTransportInstance = {
+    //       transport: element.selectedTransport,
+    //       capacity: element.capacity,
+    //       distance: element.distance,
+    //     };
+    //     axios
+    //       .post("/addTransportInstance", newTransportInstance, {
+    //         headers: {
+    //           authorization: "Bearer " + localStorage.getItem("token"),
+    //         },
+    //       })
+    //       .then(
+    //         (res) => {
+    //           this.error = "";
+    //           this.mensaje = "Producto creado";
+    //           this.name = "";
+    //           this.transportInstances.push(newTransportInstance);
+    //         },
+    //         (err) => {
+    //           this.error = err.response.data.error;
+    //         }
+    //       );
+    //   });
+    // },
+    // createRecipientInstances() {
+    //   this.rowDataRecipient.forEach((element) => {
+    //     let newRecipientInstance = {
+    //       recipient: element.selectedRecipient,
+    //       dimensions: element.dimensionsRecipient,
+    //     };
+    //     axios
+    //       .post("/addRecipientInstance", newRecipientInstance, {
+    //         headers: {
+    //           authorization: "Bearer " + localStorage.getItem("token"),
+    //         },
+    //       })
+    //       .then(
+    //         (res) => {
+    //           this.error = "";
+    //           this.mensaje = "Producto creado";
+    //           this.name = "";
+    //           this.recipientInstances.push(newRecipientInstance);
+    //         },
+    //         (err) => {
+    //           this.error = err.response.data.error;
+    //         }
+    //       );
+    //   });
+    // },
+    // addNewProduct() {
+    //   this.createAnimalInstances();
+    //   this.createVegetalInstances();
+    //   this.createTransportInstances();
+    //   this.createRecipientInstances();
+    //   let newProduct = {
+    //     //General info
+    //     name: this.productName,
+    //     description: this.productDescription,
+    //     origin: this.productOrigin,
+    //     typeProd: this.typeProd, //o Id?
+    //     //Procurement
+    //     water: this.Water,
+    //     electricity: this.Electricity,
+    //     //crear las AnimalInstances
+    //     animals: this.animalInstances,
+    //     //crear las VegetalInstances
+    //     vegetals: this.vegetalInstances,
+    //     //crear las TransportInstances
+    //     transports: this.transportInstances,
+    //     //crear las WasteInstances
+    //     recipients: this.recipientInstances,
+    //   };
+    //   axios
+    //     .post("/addProduct", newProduct, {
+    //       headers: { authorization: "Bearer " + localStorage.getItem("token") },
+    //     })
+    //     .then(
+    //       (res) => {
+    //         this.error = "";
+    //         this.mensaje = "Producto creado";
+    //         this.name = "";
+    //       },
+    //       (err) => {
+    //         this.error = err.response.data.error;
+    //       }
+    //     );
+    // },
   },
 };
 </script>
