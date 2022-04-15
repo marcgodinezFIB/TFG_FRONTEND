@@ -86,7 +86,8 @@
         </b-tab>
         <b-tab title="Obtención" :active="step === 2">
           <b-card-text>
-            <div class="row">
+            <Procurement/>
+            <!-- <div class="row">
               <div class="col-6">
                 <div class="row">
                   <div class="col-6">
@@ -326,7 +327,7 @@
                   <b-button @click="NextStep">Guardar y continuar</b-button>
                 </div>
               </div>
-            </div>
+            </div> -->
           </b-card-text>
         </b-tab>
         <b-tab title="Elaboración" :active="step === 3">
@@ -720,9 +721,12 @@
 <script>
 import axios from "axios";
 import GeneralInfo from "./Product/GeneralInfo.vue"
+import Procurement from "./Product/Procurement.vue"
+//import GeneralInfo from "./Product/GeneralInfo.vue"
+//import GeneralInfo from "./Product/GeneralInfo.vue"
 export default {
   name: "AddProduct",
-  components: {GeneralInfo},
+  components: {GeneralInfo, Procurement},
   data() {
     return {
       step: 1,
@@ -807,59 +811,59 @@ export default {
       //this.checkGeneralInfo(step);
       this.step = this.step + 1;
     },
-    addAnimal() {
-      this.checkInfoAnimal();
-      if (this.mensajeAnimal == "") {
-        var newAnimal = {
-          selectedAnimal: this.selectedAnimal,
-          quantityAnimal: this.quantityAnimal,
-        };
-        this.rowDataAnimal.push(newAnimal);
-        this.selectedAnimal = "";
-        this.quantityAnimal = "";
-      }
-    },
-    checkInfoAnimal() {
-      //if(this.selectedTransport == '' || this.capacity == '' || this.distance == '') this.mensajeTransport = 'Todos los campos son obligatorios'
-      //else if(this.capacity >= this.maxCapacity || this.distance >= this.maxDistance) this.mensajeTransport = 'Comprueba los valores máximos'
-    },
-    deleteAnimal(index) {
-      this.rowDataAnimal.splice(index, 1);
-    },
-    addVegetal() {
-      this.checkInfoVegetal();
-      if (this.mensajeVegetal == "") {
-        var newVegetal = {
-          selectedVegetal: this.selectedVegetal,
-          fertilizerVegetal: this.fertilizerVegetal,
-          pesticideVegetal: this.pesticideVegetal,
-        };
-        this.rowDataVegetal.push(newVegetal);
-        this.fertilizerVegetal = "";
-        this.pesticideVegetal = "";
-      }
-    },
-    checkInfoVegetal() {
-      //if(this.selectedTransport == '' || this.capacity == '' || this.distance == '') this.mensajeTransport = 'Todos los campos son obligatorios'
-      //else if(this.capacity >= this.maxCapacity || this.distance >= this.maxDistance) this.mensajeTransport = 'Comprueba los valores máximos'
-    },
-    deleteVegetal(index) {
-      this.rowDataVegetal.splice(index, 1);
-    },
-    getAllVegetals() {
-      axios.get("/getAllVegetals").then((res) => {
-        this.listVegetals = res.data.message;
-      });
-    },
-    isAnimal(event) {
-      var optionText = event.target.value;
-      this.Water = optionText;
-    },
-    getAllAnimals() {
-      axios.get("/getAllAnimals").then((res) => {
-        this.listAnimals = res.data.message;
-      });
-    },
+    // addAnimal() {
+    //   this.checkInfoAnimal();
+    //   if (this.mensajeAnimal == "") {
+    //     var newAnimal = {
+    //       selectedAnimal: this.selectedAnimal,
+    //       quantityAnimal: this.quantityAnimal,
+    //     };
+    //     this.rowDataAnimal.push(newAnimal);
+    //     this.selectedAnimal = "";
+    //     this.quantityAnimal = "";
+    //   }
+    // },
+    // checkInfoAnimal() {
+    //   //if(this.selectedTransport == '' || this.capacity == '' || this.distance == '') this.mensajeTransport = 'Todos los campos son obligatorios'
+    //   //else if(this.capacity >= this.maxCapacity || this.distance >= this.maxDistance) this.mensajeTransport = 'Comprueba los valores máximos'
+    // },
+    // deleteAnimal(index) {
+    //   this.rowDataAnimal.splice(index, 1);
+    // },
+    // addVegetal() {
+    //   this.checkInfoVegetal();
+    //   if (this.mensajeVegetal == "") {
+    //     var newVegetal = {
+    //       selectedVegetal: this.selectedVegetal,
+    //       fertilizerVegetal: this.fertilizerVegetal,
+    //       pesticideVegetal: this.pesticideVegetal,
+    //     };
+    //     this.rowDataVegetal.push(newVegetal);
+    //     this.fertilizerVegetal = "";
+    //     this.pesticideVegetal = "";
+    //   }
+    // },
+    // checkInfoVegetal() {
+    //   //if(this.selectedTransport == '' || this.capacity == '' || this.distance == '') this.mensajeTransport = 'Todos los campos son obligatorios'
+    //   //else if(this.capacity >= this.maxCapacity || this.distance >= this.maxDistance) this.mensajeTransport = 'Comprueba los valores máximos'
+    // },
+    // deleteVegetal(index) {
+    //   this.rowDataVegetal.splice(index, 1);
+    // },
+    // getAllVegetals() {
+    //   axios.get("/getAllVegetals").then((res) => {
+    //     this.listVegetals = res.data.message;
+    //   });
+    // },
+    // isAnimal(event) {
+    //   var optionText = event.target.value;
+    //   this.Water = optionText;
+    // },
+    // getAllAnimals() {
+    //   axios.get("/getAllAnimals").then((res) => {
+    //     this.listAnimals = res.data.message;
+    //   });
+    // },
     addTransport() {
       this.checkInfoTransport();
       if (this.mensajeTransport == "") {
