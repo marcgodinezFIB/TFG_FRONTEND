@@ -23,16 +23,43 @@ function addProduct(req, res) {
                 name: req.body.name,
                 description: req.body.description,
                 origin: req.body.origin,
-                type: req.body.type,
+                typeProd: req.body.typeProd,
                 //Procurement
-                waterObtention: req.body.waterObtention, //valor fijo
-                electricityObtention: req.body.electricityObtention, //valor fijo
-                animalList: req.body.animals,
-                vegetalList: req.body.vegetals,
+                water: req.body.water, //valor fijo
+                electricity: req.body.electricity, //valor fijo
+                animal: req.body.animals,
+                vegetal: req.body.vegetals,
                 //Transport
-                transportList: req.body.transports,
+                transport: req.body.transports,
                 //Waste
-                recipientList: req.body.recipients
+                recipient: req.body.recipients,
+
+                //CO2 elaboration
+                //CO2 cost L water
+                CO2Water:  (water * 0.000298), // 0.298 gramos por litro
+                CO2Electricity: (electricity * 0,167), // gramos por kwh
+                // CO2Animal: 
+                // Fórmula para el calculo de lo que consume el animal
+                //  animal.foreach(element => {
+                //     CO2Years = element.animal.CO2perYear * element.animal.year;
+                //     CO2Total = CO2Years * element.quantity / element.animal.weight
+                //}),
+                //CO2Vegetal: 
+                // Fórmula para el calculo de lo que consume el vegetal
+                // vegetal.foreach(element => {
+                    //CO2Pesticide: Element.pesticide * const pesticide
+                    //CO2fertilizer: element.fertilizer * const fertilizer
+                //})
+                //CO2 Procurement
+                // Fórmula para el calculo de lo que consume el envase
+                // recipient.foreach(element => {
+                //  CO2Dimensions: Element.dimensions * element.recipient.co2perm3
+                //})
+                //CO2 Transport
+                // Fórmula para el calculo de lo que consume el transporte
+                // transport.foreach(element => {
+                //  CO2Transport: co2perkm * distance * (formula para aproximar tema peso)
+                //})
             })
             product.save();
             return res.status(201).send({ message: "Se ha añadido correctamente el producto" })

@@ -9,10 +9,12 @@ const ProductSchema = new Schema({
     description: { type: String, required: [true] },
     origin: { type: String, required: [true]},
     type: { type: String},
-    //transport: { type: Schema.Types.ObjectId },
-    animal: { type: Schema.Types.ObjectId},
-    //vegetal: { type: Schema.Types.ObjectId },
-    //recipient: { type: Schema.Types.ObjectId},
+    water: { type: Number},
+    electricity:{ type: Number},
+    animal: { type: Array},
+    vegetal: { type: Array},
+    transport: { type: Array},
+    recipient: { type: Array},
 
     //calculo de CO2
     //CO2 per transport (desglosado o lo meto directo en TransportInstance)

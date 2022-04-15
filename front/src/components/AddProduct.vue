@@ -4,7 +4,8 @@
       <b-tabs pills small card vertical>
         <b-tab title="Información general" :active="step === 1">
           <b-card-text>
-            <div class="row">
+            <GeneralInfo/>
+            <!-- <div class="row">
               <div class="col">
                 <div class="row">
                   <div class="col-3">
@@ -80,7 +81,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </b-card-text>
         </b-tab>
         <b-tab title="Obtención" :active="step === 2">
@@ -113,6 +114,7 @@
                       trim
                       type="number"
                       required
+                      v-model="Electricity"
                       class="form-control my-2"
                     />
                   </div>
@@ -717,18 +719,19 @@
 </template>
 <script>
 import axios from "axios";
-
+import GeneralInfo from "./Product/GeneralInfo.vue"
 export default {
   name: "AddProduct",
+  components: {GeneralInfo},
   data() {
     return {
       step: 1,
-      listTypeProd: [],
-      selectedTypeProd: "",
-      mensajeGeneralInfo: "",
-      productName: "",
-      productDescription: "",
-      productOrigin: "",
+      // listTypeProd: [],
+      // selectedTypeProd: "",
+      // mensajeGeneralInfo: "",
+      // productName: "",
+      // productDescription: "",
+      // productOrigin: "",
 
       Water: "",
       Electricity: "",
@@ -766,7 +769,7 @@ export default {
 
       animalInstances: [],
       vegetalInstances: [],
-      transportlInstances: [],
+      transportInstances: [],
       recipientInstances: []
     };
   },
@@ -777,29 +780,29 @@ export default {
     }
   },
   mounted() {
-    this.getAllTypesProd();
+    //this.getAllTypesProd();
     this.getAllAnimals();
     this.getAllVegetals();
     this.getAllTransports();
     this.getAllRecipients();
   },
   methods: {
-    getAllTypesProd() {
-      axios.get("/getAllTypeProd").then((res) => {
-        this.listTypeProd = res.data.message;
-      });
-    },
-    checkInfo(step) {
-      if (step == 1)
-        if (
-          this.productName == "" ||
-          this.productDescription == "" ||
-          this.productOrigin == "" ||
-          this.selectedTypeProd == ""
-        )
-          this.mensajeGeneralInfo = "Todos los campos son obligatorios";
-        else this.mensajeGeneralInfo = "";
-    },
+    // getAllTypesProd() {
+    //   axios.get("/getAllTypeProd").then((res) => {
+    //     this.listTypeProd = res.data.message;
+    //   });
+    // },
+    // checkInfo(step) {
+    //   if (step == 1)
+    //     if (
+    //       this.productName == "" ||
+    //       this.productDescription == "" ||
+    //       this.productOrigin == "" ||
+    //       this.selectedTypeProd == ""
+    //     )
+    //       this.mensajeGeneralInfo = "Todos los campos son obligatorios";
+    //     else this.mensajeGeneralInfo = "";
+    // },
     NextStep(step) {
       //this.checkGeneralInfo(step);
       this.step = this.step + 1;
@@ -941,6 +944,7 @@ export default {
             this.error = '';
             this.mensaje = 'Producto creado'
             this.name = ''
+            this.animalInstances.push(newAnimalInstance)
         }, err => {
             this.error = err.response.data.error;
         })
@@ -958,6 +962,7 @@ export default {
             this.error = '';
             this.mensaje = 'Producto creado'
             this.name = ''
+            this.vegetalInstances.push(newVegetalInstance)
         }, err => {
             this.error = err.response.data.error;
         })
@@ -975,6 +980,7 @@ export default {
             this.error = '';
             this.mensaje = 'Producto creado'
             this.name = ''
+            this.transportInstances.push(newTransportInstance)
         }, err => {
             this.error = err.response.data.error;
         })
@@ -992,17 +998,17 @@ export default {
             this.error = '';
             this.mensaje = 'Producto creado'
             this.name = ''
+            this.recipientInstances.push(newRecipientInstance)
         }, err => {
             this.error = err.response.data.error;
         })
       });
     },
     addNewProduct(){
-      this.animalInstances = this.createAnimalInstances();
-      this.vegetalInstances = this.createVegetalInstances();
-      this.transportlInstances = this.createTransportInstances();
-      this.recipientInstances = this.createRecipientInstances();
-
+      this.createAnimalInstances();
+      this.createVegetalInstances();
+      this.createTransportInstances();
+      this.createRecipientInstances();
       let newProduct = {
         //General info
         name: this.productName,
@@ -1011,15 +1017,15 @@ export default {
         typeProd: this.typeProd, //o Id?
         //Procurement
         water: this.Water,
-        electricity: this.electricity,
+        electricity: this.Electricity,
         //crear las AnimalInstances
         animals: this.animalInstances,
         //crear las VegetalInstances
         vegetals: this.vegetalInstances,
         //crear las TransportInstances
-        //transports: this.rowData,
+        transports: this.transportInstances,
         //crear las WasteInstances
-        //recipients: this.rowDataRecipient,
+        recipients: this.recipientInstances,
       }
       axios.post('/addProduct',newProduct, {headers: { authorization: "Bearer " + localStorage.getItem('token')}})
       .then(res => {

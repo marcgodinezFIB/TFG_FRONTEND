@@ -9,7 +9,6 @@ function addAnimalInstance(req, res) {
         if (err) return res.status(500).send({ message: err })
         if (!user) return res.status(404).send({ message: "no existe usuario" })
         if (user.role == "EMPRESA") {
-            console.log(req.body)
             var animalInstance = new AnimalInstance({
                 animal: req.body.animal,
                 quantity: req.body.quantity
