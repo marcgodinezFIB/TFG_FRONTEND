@@ -24,7 +24,21 @@
         justify-content: center;
         flex-direction: column;
     }
-    
+    .forms-index {
+        border-color: #ffffff;
+        border-width: 2px;
+        width: 900px;
+        margin: auto;
+        margin-top:60px;
+        background: #ffffff;
+        padding: 40px 55px 45px 55px;
+        border-radius: 15px;
+        transition: all .3s;
+        display: flex;
+        text-align: left;
+        justify-content: center;
+        flex-direction: column;
+    }
     .header-text {
         color: #000000;
     }

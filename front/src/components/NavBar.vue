@@ -1,17 +1,17 @@
 <template>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark" :key="$route.fullPath">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/">CarbonFootprintScan</a>
+                <img style="height: 40px;width: 40px;" src="../assets/css/arbol1.png"/><a class="navbar-brand" href="/">CarbonFootprintScan</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" v-if="isLoggedIn" href="/addproduct">Add product</a>
+                        <a class="nav-link" v-if="isLoggedIn" href="/addproduct">Añadir producto</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" v-if="isLoggedIn" href="/productlist">Product list</a>
+                        <a class="nav-link" v-if="isLoggedIn" href="/productlist">Lista de productos</a>
                     </li>
                 </ul>
             </div>

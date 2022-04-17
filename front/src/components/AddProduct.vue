@@ -69,7 +69,9 @@
                 </div>
                 <div class="row mt-3">
                   <div class="col-6" style="text-align: end">
-                    <b-button @click="NextStep1">Guardar y continuar</b-button>
+                    <b-button variant="outline-secondary" @click="NextStep1"
+                      >Guardar y continuar</b-button
+                    >
                   </div>
                 </div>
                 <div class="row mt-3">
@@ -86,7 +88,7 @@
             </div>
           </b-card-text>
         </b-tab>
-        <b-tab title="Obtención" :active="step === 2">
+        <b-tab title="Producción" :disabled="disabledTab2" :active="step === 2">
           <b-card-text>
             <div class="row">
               <div class="col-6">
@@ -176,7 +178,9 @@
                     </select>
                   </div>
                   <div class="col-3">
-                    <b-button @click="addAnimal">Add</b-button>
+                    <b-button variant="outline-secondary" @click="addAnimal"
+                      >Add</b-button
+                    >
                   </div>
                 </div>
                 <div class="row" v-if="isAnimalType === 'isAnimalYes'">
@@ -247,7 +251,9 @@
                     </select>
                   </div>
                   <div class="col-3">
-                    <b-button @click="addVegetal">Add</b-button>
+                    <b-button variant="outline-secondary" @click="addVegetal"
+                      >Add</b-button
+                    >
                   </div>
                 </div>
                 <div class="row" v-if="isVegetalType === 'isVegetalYes'">
@@ -284,9 +290,12 @@
                 </div>
                 <div class="row">
                   <div class="col">
-                    <b-alert v-if="mensajeProcurement != ''" show variant="danger">{{
-                      mensajeProcurement
-                    }}</b-alert>
+                    <b-alert
+                      v-if="mensajeProcurement != ''"
+                      show
+                      variant="danger"
+                      >{{ mensajeProcurement }}</b-alert
+                    >
                   </div>
                 </div>
                 <div class="row">
@@ -319,7 +328,9 @@
                         <td>{{ item.selectedAnimal.name }}</td>
                         <td>{{ item.quantityAnimal }}</td>
                         <td>
-                          <b-button @click="deleteAnimal(index)"
+                          <b-button
+                            variant="outline-secondary"
+                            @click="deleteAnimal(index)"
                             >Eliminar</b-button
                           >
                         </td>
@@ -343,7 +354,9 @@
                         <td>{{ item.fertilizerVegetal }}</td>
                         <td>{{ item.pesticideVegetal }}</td>
                         <td>
-                          <b-button @click="deleteVegetal(index)"
+                          <b-button
+                            variant="outline-secondary"
+                            @click="deleteVegetal(index)"
                             >Eliminar</b-button
                           >
                         </td>
@@ -354,22 +367,15 @@
               </div>
               <div class="row mt-3">
                 <div class="col-6" style="text-align: end">
-                  <b-button @click="NextStep2">Guardar y continuar</b-button>
+                  <b-button variant="outline-secondary" @click="NextStep2"
+                    >Guardar y continuar</b-button
+                  >
                 </div>
               </div>
             </div>
           </b-card-text>
         </b-tab>
-        <b-tab title="Elaboración" :active="step === 3">
-          <b-card-text>
-            <div class="row mt-3">
-              <div class="col-6" style="text-align: end">
-                <b-button @click="NextStep3">Guardar y continuar</b-button>
-              </div>
-            </div>
-          </b-card-text>
-        </b-tab>
-        <b-tab title="Transporte" :active="step === 4">
+        <b-tab title="Transporte" :disabled="disabledTab3" :active="step === 3">
           <b-card-text>
             <div class="row">
               <div class="col-6">
@@ -383,7 +389,7 @@
                         v-for="(transport, _id) in listTransports"
                         :value="transport"
                         :key="_id"
-                        :disabled = isDisabledTransport
+                        :disabled="isDisabledTransport"
                       >
                         {{ transport.name }}
                       </option>
@@ -403,7 +409,7 @@
                     <input
                       type="number"
                       v-model="capacity"
-                      :disabled = isDisabledTransport
+                      :disabled="isDisabledTransport"
                       class="form-control"
                     />
                   </div>
@@ -421,14 +427,16 @@
                     <input
                       type="number"
                       v-model="distance"
-                      :disabled = isDisabledTransport
+                      :disabled="isDisabledTransport"
                       class="form-control"
                     />
                   </div>
                 </div>
                 <div class="row" style="text-align: end">
                   <div class="col">
-                    <b-button @click="addTransport">Add</b-button>
+                    <b-button variant="outline-secondary" :disabled="isDisabledTransport" @click="addTransport"
+                      >Add</b-button
+                    >
                   </div>
                 </div>
                 <div class="row mt-3">
@@ -437,7 +445,7 @@
                       v-if="mensajeTransport != ''"
                       show
                       variant="danger"
-                      :disabled = isDisabledTransport
+                      :disabled="isDisabledTransport"
                       >{{ mensajeTransport }}</b-alert
                     >
                   </div>
@@ -457,7 +465,9 @@
                         <td>{{ item.distance }}</td>
                         <td>{{ item.capacity }}</td>
                         <td>
-                          <b-button @click="deleteTransport(index)"
+                          <b-button
+                            variant="outline-secondary"
+                            @click="deleteTransport(index)"
                             >Eliminar</b-button
                           >
                         </td>
@@ -469,12 +479,14 @@
             </div>
             <div class="row mt-3">
               <div class="col" style="text-align: end">
-                <b-button @click="NextStep4">Guardar y continuar</b-button>
+                <b-button variant="outline-secondary" @click="NextStep3"
+                  >Guardar y continuar</b-button
+                >
               </div>
             </div>
           </b-card-text>
         </b-tab>
-        <b-tab title="Residuos" :active="step === 5">
+        <b-tab title="Residuos" :disabled="disabledTab4" :active="step === 4">
           <b-card-text>
             <div class="row">
               <div class="col-6">
@@ -488,7 +500,7 @@
                         v-for="(recipient, _id) in listRecipients"
                         :value="recipient"
                         :key="_id"
-                        :disabled = isDisabledRecipient
+                        :disabled="isDisabledRecipient"
                       >
                         {{ recipient.name }}
                       </option>
@@ -506,25 +518,17 @@
                       type="number"
                       required
                       v-model="dimensionsRecipient"
-                      :disabled = isDisabledRecipient
+                      :disabled="isDisabledRecipient"
                       class="form-control my-2"
                     />
                   </div>
                 </div>
                 <div class="row">
                   <div class="col">
-                    <b-button @click="addRecipient">Add</b-button>
+                    <b-button variant="outline-secondary" @click="addRecipient"
+                      >Add</b-button
+                    >
                   </div>
-                </div>
-              </div>
-              <div class="row mt-3">
-                <div class="col">
-                  <b-alert
-                    v-if="mensajeRecipient != ''"
-                    show
-                    variant="danger"
-                    >{{ mensajeRecipient }}</b-alert
-                  >
                 </div>
               </div>
               <div class="col-6">
@@ -542,7 +546,9 @@
                         <td>{{ item.selectedRecipient.name }}</td>
                         <td>{{ item.dimensionsRecipient }}</td>
                         <td>
-                          <b-button @click="deleteRecipient(index)"
+                          <b-button
+                            variant="outline-secondary"
+                            @click="deleteRecipient(index)"
                             >Eliminar</b-button
                           >
                         </td>
@@ -551,15 +557,31 @@
                   </table>
                 </div>
               </div>
+              <div class="row mt-3">
+                <div class="col">
+                  <b-alert
+                    v-if="mensajeRecipient != ''"
+                    show
+                    variant="danger"
+                    >{{ mensajeRecipient }}</b-alert
+                  >
+                </div>
+              </div>
             </div>
             <div class="row mt-3">
               <div class="col-6" style="text-align: end">
-                <b-button @click="NextStep5">Guardar y continuar</b-button>
+                <b-button variant="outline-secondary" @click="NextStep4"
+                  >Guardar y continuar</b-button
+                >
               </div>
             </div>
           </b-card-text>
         </b-tab>
-        <b-tab title="Revisar y guardar" :active="step === 6">
+        <b-tab
+          title="Revisar y guardar"
+          :disabled="disabledTab5"
+          :active="step === 5"
+        >
           <b-card-text>
             <div class="row">
               <div class="col-6">
@@ -642,7 +664,9 @@
                         <td>{{ item.distance }}</td>
                         <td>{{ item.capacity }}</td>
                         <td>
-                          <b-button @click="deleteTransport(index)"
+                          <b-button
+                            variant="outline-secondary"
+                            @click="deleteTransport(index)"
                             >Eliminar</b-button
                           >
                         </td>
@@ -669,7 +693,9 @@
                         <td>{{ item.selectedRecipient.name }}</td>
                         <td>{{ item.dimensionsRecipient }}</td>
                         <td>
-                          <b-button @click="deleteRecipient(index)"
+                          <b-button
+                            variant="outline-secondary"
+                            @click="deleteRecipient(index)"
                             >Eliminar</b-button
                           >
                         </td>
@@ -726,7 +752,9 @@
                       <td>{{ item.selectedAnimal.name }}</td>
                       <td>{{ item.quantityAnimal }}</td>
                       <td>
-                        <b-button @click="deleteAnimal(index)"
+                        <b-button
+                          variant="outline-secondary"
+                          @click="deleteAnimal(index)"
                           >Eliminar</b-button
                         >
                       </td>
@@ -747,7 +775,9 @@
                       <td>{{ item.fertilizerVegetal }}</td>
                       <td>{{ item.pesticideVegetal }}</td>
                       <td>
-                        <b-button @click="deleteVegetal(index)"
+                        <b-button
+                          variant="outline-secondary"
+                          @click="deleteVegetal(index)"
                           >Eliminar</b-button
                         >
                       </td>
@@ -757,7 +787,9 @@
               </div>
             </div>
             <div>
-              <b-button @click="addNewProduct">Guardar producto</b-button>
+              <b-button variant="outline-secondary" @click="addNewProduct"
+                >Guardar producto</b-button
+              >
             </div>
           </b-card-text>
         </b-tab>
@@ -777,6 +809,11 @@ export default {
       isDisabledProcurement: false,
       isDisabledTransport: false,
       isDisabledRecipient: false,
+      disabledTab2: true,
+      disabledTab3: true,
+      disabledTab4: true,
+      disabledTab5: true,
+
       listTypeProd: [],
       selectedTypeProd: "",
       mensajeGeneralInfo: "",
@@ -857,21 +894,30 @@ export default {
       this.checkGeneralInfo();
       if (this.mensajeGeneralInfo == "") {
         this.isDisabled = true;
+        this.disabledTab2 = false;
+        this.step = this.step + 1;
       }
-      this.step = this.step + 1;
     },
     NextStep2() {
       this.checkProcurementInfo();
       if (this.mensajeProcurement == "") {
         this.isDisabledProcurement = true;
+        this.disabledTab3 = false;
+        this.step = this.step + 1;
       }
+    },
+    NextStep3() {
+        this.isDisabledTransport = true;
+        this.disabledTab4 = false;
+        this.step = this.step + 1;
+        this.mensajeTransport = ""
+    },
+    NextStep4() {
       this.step = this.step + 1;
+      this.disabledTab5 = false;
     },
     checkProcurementInfo() {
-      if (
-        this.water == "" ||
-        this.electricity == ""
-      )
+      if (this.Water == "" || this.Electricity == "")
         this.mensajeProcurement = "Todos los campos son obligatorios";
       else this.mensajeProcurement = "";
     },
@@ -889,15 +935,7 @@ export default {
         this.mensajeVegetal = "Todos los campos del vegetal son obligatorios";
       else this.mensajeVegetal = "";
     },
-
-    NextStep4() {
-      this.checkInfoTransport();
-      if (this.mensajeTransport == "") {
-        this.isDisabledTransport = true;
-      }
-      this.step = this.step + 1;
-    },
-    checkInfoTransport() {
+    checkInfoTransportAdded() {
       if (
         this.selectedTransport.name == "" ||
         this.capacity == "" ||
@@ -911,18 +949,10 @@ export default {
       )
         this.mensajeTransport = "Comprueba los valores máximos";
     },
-    NextStep3() {
-      //this.checkGeneralInfo();
-      this.step = 4;
-    },
     checkInfoRecipient() {
       if (this.selectedRecipient == "" || this.dimensionsRecipient == "")
         this.mensajeRecipient = "Todos los campos del envase son obligatorios";
       else this.mensajeRecipient = "";
-    },
-    NextStep5() {
-      this.checkGeneralInfo();
-      this.step = 2;
     },
     deleteVegetal(index) {
       this.rowDataVegetal.splice(index, 1);
@@ -1054,7 +1084,7 @@ export default {
         );
     },
     addTransport() {
-      this.checkInfoTransport();
+      this.checkInfoTransportAdded();
       if (this.mensajeTransport == "") {
         var newTransport = {
           selectedTransport: this.selectedTransport,

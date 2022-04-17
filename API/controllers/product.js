@@ -56,6 +56,7 @@ function addProduct(req, res) {
                 CO2Electricity: (req.body.electricity * 0.167).toFixed(4), // gramos por kwh
                 CO2Animal: CO2Animal.toFixed(4),
                 CO2Vegetal: CO2Vegetal.toFixed(4),
+                CO2Procurement: (req.body.water * 0.000298 + req.body.electricity * 0.167 + CO2Animal + CO2Vegetal).toFixed(4),
                 CO2Transport: CO2Transport.toFixed(4),
                 CO2Recipient: CO2Recipient.toFixed(4),
                 CO2Total: (req.body.water * 0.000298 + req.body.electricity * 0.167 + CO2Animal + CO2Vegetal + CO2Transport + CO2Recipient).toFixed(4)

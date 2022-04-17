@@ -80,7 +80,7 @@
       @filtered="onFiltered"
     >
       <template #cell(actions)="row">
-        <b-button size="sm" @click="info(row.item, row.index, $event.target)">
+        <b-button size="sm" @click="info(row.item, $event.target)">
           Info modal
         </b-button>
         <b-button
@@ -129,12 +129,6 @@ export default {
           class: "text-center",
         },
         {
-          key: "CO2Procurement",
-          label: "CO2Procurement",
-          sortable: true,
-          class: "text-center",
-        },
-        {
           key: "CO2Animal",
           label: "CO2Animal",
           sortable: true,
@@ -149,6 +143,12 @@ export default {
         {
           key: "CO2Water",
           label: "CO2Water",
+          sortable: true,
+          class: "text-center",
+        },
+        {
+          key: "CO2Electricity",
+          label: "CO2Electricity",
           sortable: true,
           class: "text-center",
         },
@@ -215,8 +215,8 @@ export default {
     this.totalRows = this.items.length;
   },
   methods: {
-    info(item, index, button) {
-      this.infoModal.title = `Row index: ${index}`;
+    info(item,button) {
+      this.infoModal.title = item.name;
       this.infoModal.content = JSON.stringify(item, null, 2);
       this.$root.$emit("bv::show::modal", this.infoModal.id, button);
     },

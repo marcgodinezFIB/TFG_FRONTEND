@@ -7,6 +7,12 @@ const routes = new VueRouter({
     base: process.env.BASE_URL,
     routes: [
         {
+            path: '/',
+            name: 'index',
+            component: () =>
+                import ('../components/Index.vue')
+        },
+        {
         path: '/signup',
         name: 'signup',
         component: () =>
