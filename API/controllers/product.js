@@ -17,7 +17,23 @@ function addProduct(req, res) {
             // req.body.vegetalsList.foreach(vegetal => vegetals.push(vegetal._id));
             // req.body.transportsList.foreach(transport => transports.push(transport._id));
             // req.body.recipientsList.foreach(recipient => recipients.push(recipient._id));
-
+            console.log(req.body.animals)
+            var CO2Animal = 0;
+            var CO2Vegetal = 0;
+            var CO2Transport = 0;
+            var CO2Recipient = 0;
+            req.body.animals.forEach(element => {
+                CO2Animal += (element.animal.CO2PerYear * element.animal.years * element.quantity) / element.animal.weight
+            })
+            req.body.vegetals.forEach(element => {
+                CO2Vegetal += (element.pesticide * 0.12) + (element.fertilizer * 0.24) 
+            })
+            req.body.transports.forEach(element => {
+                CO2Transport += element.distance * element.transport.CO2PerKm
+            })
+            req.body.recipients.forEach(element => {
+                CO2Recipient += element.recipient.CO2Perm3 * element.dimensions
+            })
             var product = new Product({
                 //General info
                 name: req.body.name,
@@ -36,30 +52,13 @@ function addProduct(req, res) {
 
                 //CO2 elaboration
                 //CO2 cost L water
-                CO2Water:  (water * 0.000298), // 0.298 gramos por litro
-                CO2Electricity: (electricity * 0,167), // gramos por kwh
-                // CO2Animal: 
-                // Fórmula para el calculo de lo que consume el animal
-                //  animal.foreach(element => {
-                //     CO2Years = element.animal.CO2perYear * element.animal.year;
-                //     CO2Total = CO2Years * element.quantity / element.animal.weight
-                //}),
-                //CO2Vegetal: 
-                // Fórmula para el calculo de lo que consume el vegetal
-                // vegetal.foreach(element => {
-                    //CO2Pesticide: Element.pesticide * const pesticide
-                    //CO2fertilizer: element.fertilizer * const fertilizer
-                //})
-                //CO2 Procurement
-                // Fórmula para el calculo de lo que consume el envase
-                // recipient.foreach(element => {
-                //  CO2Dimensions: Element.dimensions * element.recipient.co2perm3
-                //})
-                //CO2 Transport
-                // Fórmula para el calculo de lo que consume el transporte
-                // transport.foreach(element => {
-                //  CO2Transport: co2perkm * distance * (formula para aproximar tema peso)
-                //})
+                CO2Water:  (req.body.water * 0.000298).toFixed(4), // 0.298 gramos por litro
+                CO2Electricity: (req.body.electricity * 0.167).toFixed(4), // gramos por kwh
+                CO2Animal: CO2Animal.toFixed(4),
+                CO2Vegetal: CO2Vegetal.toFixed(4),
+                CO2Transport: CO2Transport.toFixed(4),
+                CO2Recipient: CO2Recipient.toFixed(4),
+                CO2Total: (req.body.water * 0.000298 + req.body.electricity * 0.167 + CO2Animal + CO2Vegetal + CO2Transport + CO2Recipient).toFixed(4)
             })
             product.save();
             return res.status(201).send({ message: "Se ha añadido correctamente el producto" })
@@ -68,6 +67,7 @@ function addProduct(req, res) {
 }
 
 function removeProduct(req, res) {
+
     User.findById(req.user, (err, user) => {
         if (err) return res.status(500).send({ message: err })
         if (!user) return res.status(404).send({ message: "no existe usuario" })

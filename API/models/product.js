@@ -16,12 +16,14 @@ const ProductSchema = new Schema({
     transport: { type: Array},
     recipient: { type: Array},
 
-    //calculo de CO2
-    //CO2 per transport (desglosado o lo meto directo en TransportInstance)
-    //CO2 ...
-    //
-    //
-
+    CO2Procurement: {type : Number},
+    CO2Water: {type: Number},
+    CO2Electricity: {type: Number},
+    CO2Animal: {type: Number},
+    CO2Vegetal: {type: Number},    
+    CO2Transport: {type : Number},
+    CO2Recipient: {type : Number},
+    CO2Total: {type : Number},
 })
 
 

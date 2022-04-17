@@ -4,8 +4,7 @@
       <b-tabs pills small card vertical>
         <b-tab title="Información general" :active="step === 1">
           <b-card-text>
-            <GeneralInfo />
-            <!-- <div class="row">
+            <div class="row">
               <div class="col">
                 <div class="row">
                   <div class="col-3">
@@ -18,6 +17,7 @@
                       required
                       v-model="productName"
                       class="form-control my-2"
+                      :disabled="isDisabled"
                     />
                   </div>
                 </div>
@@ -32,6 +32,7 @@
                       required
                       v-model="productDescription"
                       class="form-control my-2"
+                      :disabled="isDisabled"
                     />
                   </div>
                 </div>
@@ -46,6 +47,7 @@
                       required
                       v-model="productOrigin"
                       class="form-control my-2"
+                      :disabled="isDisabled"
                     />
                   </div>
                 </div>
@@ -67,7 +69,7 @@
                 </div>
                 <div class="row mt-3">
                   <div class="col-6" style="text-align: end">
-                    <b-button @click="NextStep">Guardar y continuar</b-button>
+                    <b-button @click="NextStep1">Guardar y continuar</b-button>
                   </div>
                 </div>
                 <div class="row mt-3">
@@ -81,13 +83,12 @@
                   </div>
                 </div>
               </div>
-            </div> -->
+            </div>
           </b-card-text>
         </b-tab>
         <b-tab title="Obtención" :active="step === 2">
           <b-card-text>
-            <Procurement />
-            <!-- <div class="row">
+            <div class="row">
               <div class="col-6">
                 <div class="row">
                   <div class="col-6">
@@ -99,6 +100,7 @@
                       trim
                       type="number"
                       required
+                      :disabled="isDisabledProcurement"
                       value="aaa"
                       v-model="Water"
                       class="form-control my-2"
@@ -115,6 +117,7 @@
                       trim
                       type="number"
                       required
+                      :disabled="isDisabledProcurement"
                       v-model="Electricity"
                       class="form-control my-2"
                     />
@@ -129,6 +132,7 @@
                       <input
                         class="form-check-input"
                         type="radio"
+                        :disabled="isDisabledProcurement"
                         name="inlineRadioAnimalOptions"
                         id="inlineRadioAnimalYes"
                         v-model="isAnimalType"
@@ -142,6 +146,7 @@
                       <input
                         class="form-check-input"
                         type="radio"
+                        :disabled="isDisabledProcurement"
                         name="inlineRadioAnimalOptions"
                         id="inlineRadioAnimalNo"
                         v-model="isAnimalType"
@@ -162,7 +167,9 @@
                       <option
                         v-for="(animal, _id) in listAnimals"
                         :value="animal"
+                        :disabled="isDisabledProcurement"
                         :key="_id"
+                        :class="{ 'input--error': !animal }"
                       >
                         {{ animal.name }}
                       </option>
@@ -182,6 +189,7 @@
                       trim
                       type="number"
                       required
+                      :disabled="isDisabledProcurement"
                       v-model="quantityAnimal"
                       class="form-control my-2"
                     />
@@ -196,6 +204,7 @@
                       <input
                         class="form-check-input"
                         type="radio"
+                        :disabled="isDisabledProcurement"
                         name="inlineRadioVegetalOptions"
                         id="inlineRadioVegYes"
                         v-model="isVegetalType"
@@ -209,6 +218,7 @@
                       <input
                         class="form-check-input"
                         type="radio"
+                        :disabled="isDisabledProcurement"
                         name="inlineRadioVegetalOptions"
                         id="inlineRadioVegNo"
                         v-model="isVegetalType"
@@ -230,6 +240,7 @@
                         v-for="(vegetal, _id) in listVegetals"
                         :value="vegetal"
                         :key="_id"
+                        :disabled="isDisabledProcurement"
                       >
                         {{ vegetal.name }}
                       </option>
@@ -248,6 +259,7 @@
                     <b-form-input
                       trim
                       type="number"
+                      :disabled="isDisabledProcurement"
                       v-model="fertilizerVegetal"
                       required
                       class="form-control my-2"
@@ -264,16 +276,34 @@
                       trim
                       type="number"
                       required
+                      :disabled="isDisabledProcurement"
                       v-model="pesticideVegetal"
                       class="form-control my-2"
                     />
                   </div>
                 </div>
-                <div class="row mt-3">
+                <div class="row">
+                  <div class="col">
+                    <b-alert v-if="mensajeProcurement != ''" show variant="danger">{{
+                      mensajeProcurement
+                    }}</b-alert>
+                  </div>
+                </div>
+                <div class="row">
                   <div class="col">
                     <b-alert v-if="mensajeAnimal != ''" show variant="danger">{{
                       mensajeAnimal
                     }}</b-alert>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <b-alert
+                      v-if="mensajeVegetal != ''"
+                      show
+                      variant="danger"
+                      >{{ mensajeVegetal }}</b-alert
+                    >
                   </div>
                 </div>
               </div>
@@ -324,25 +354,24 @@
               </div>
               <div class="row mt-3">
                 <div class="col-6" style="text-align: end">
-                  <b-button @click="NextStep">Guardar y continuar</b-button>
+                  <b-button @click="NextStep2">Guardar y continuar</b-button>
                 </div>
               </div>
-            </div> -->
+            </div>
           </b-card-text>
         </b-tab>
         <b-tab title="Elaboración" :active="step === 3">
           <b-card-text>
             <div class="row mt-3">
               <div class="col-6" style="text-align: end">
-                <b-button @click="NextStep">Guardar y continuar</b-button>
+                <b-button @click="NextStep3">Guardar y continuar</b-button>
               </div>
             </div>
           </b-card-text>
         </b-tab>
         <b-tab title="Transporte" :active="step === 4">
           <b-card-text>
-            <Transport />
-            <!-- <div class="row">
+            <div class="row">
               <div class="col-6">
                 <div class="row">
                   <div class="col-6">
@@ -354,6 +383,7 @@
                         v-for="(transport, _id) in listTransports"
                         :value="transport"
                         :key="_id"
+                        :disabled = isDisabledTransport
                       >
                         {{ transport.name }}
                       </option>
@@ -373,6 +403,7 @@
                     <input
                       type="number"
                       v-model="capacity"
+                      :disabled = isDisabledTransport
                       class="form-control"
                     />
                   </div>
@@ -390,6 +421,7 @@
                     <input
                       type="number"
                       v-model="distance"
+                      :disabled = isDisabledTransport
                       class="form-control"
                     />
                   </div>
@@ -405,6 +437,7 @@
                       v-if="mensajeTransport != ''"
                       show
                       variant="danger"
+                      :disabled = isDisabledTransport
                       >{{ mensajeTransport }}</b-alert
                     >
                   </div>
@@ -433,18 +466,17 @@
                   </table>
                 </div>
               </div>
-              <div class="row mt-3">
-                <div class="col" style="text-align: end">
-                  <b-button @click="NextStep">Guardar y continuar</b-button>
-                </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col" style="text-align: end">
+                <b-button @click="NextStep4">Guardar y continuar</b-button>
               </div>
-            </div> -->
+            </div>
           </b-card-text>
         </b-tab>
         <b-tab title="Residuos" :active="step === 5">
           <b-card-text>
-            <Waste/>
-            <!-- <div class="row">
+            <div class="row">
               <div class="col-6">
                 <div class="row">
                   <div class="col-3">
@@ -456,6 +488,7 @@
                         v-for="(recipient, _id) in listRecipients"
                         :value="recipient"
                         :key="_id"
+                        :disabled = isDisabledRecipient
                       >
                         {{ recipient.name }}
                       </option>
@@ -473,15 +506,25 @@
                       type="number"
                       required
                       v-model="dimensionsRecipient"
+                      :disabled = isDisabledRecipient
                       class="form-control my-2"
                     />
                   </div>
                 </div>
                 <div class="row">
-                  style="text-align: end">
                   <div class="col">
                     <b-button @click="addRecipient">Add</b-button>
                   </div>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col">
+                  <b-alert
+                    v-if="mensajeRecipient != ''"
+                    show
+                    variant="danger"
+                    >{{ mensajeRecipient }}</b-alert
+                  >
                 </div>
               </div>
               <div class="col-6">
@@ -508,15 +551,15 @@
                   </table>
                 </div>
               </div>
-              <div class="row mt-3">
-                <div class="col-6" style="text-align: end">
-                  <b-button @click="NextStep">Guardar y continuar</b-button>
-                </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-6" style="text-align: end">
+                <b-button @click="NextStep5">Guardar y continuar</b-button>
               </div>
-            </div> -->
+            </div>
           </b-card-text>
         </b-tab>
-        <!-- <b-tab title="Revisar y guardar" :active="step === 6">
+        <b-tab title="Revisar y guardar" :active="step === 6">
           <b-card-text>
             <div class="row">
               <div class="col-6">
@@ -527,7 +570,7 @@
                     <div class="col-3">
                       <label>Nombre:</label>
                     </div>
-                    <div class="col-3">
+                    <div class="col-9">
                       <b-form-input
                         trim
                         type="text"
@@ -536,11 +579,12 @@
                         class="form-control my-2"
                       />
                     </div>
-
+                  </div>
+                  <div class="row">
                     <div class="col-3">
                       <label>Descripcion:</label>
                     </div>
-                    <div class="col-3">
+                    <div class="col-9">
                       <b-form-input
                         trim
                         type="text"
@@ -554,7 +598,7 @@
                     <div class="col-3">
                       <label>Origen:</label>
                     </div>
-                    <div class="col-3">
+                    <div class="col-9">
                       <b-form-input
                         trim
                         type="text"
@@ -563,10 +607,12 @@
                         class="form-control my-2"
                       />
                     </div>
+                  </div>
+                  <div class="row">
                     <div class="col-3">
                       <label>Tipo de producto:</label>
                     </div>
-                    <div class="col-3">
+                    <div class="col-9">
                       <b-form-input
                         trim
                         type="text"
@@ -579,12 +625,12 @@
                 </div>
               </div>
               <div class="col-6">
-                <div class="row">
+                <div class="row" v-if="rowData.length">
                   <span>Transporte</span>
                   <hr />
                 </div>
                 <div id="table">
-                  <table class="table">
+                  <table class="table mt-2">
                     <thead v-if="rowData.length">
                       <th scope="col">Transport</th>
                       <th scope="col">Capacity</th>
@@ -604,12 +650,13 @@
                     </tbody>
                   </table>
                 </div>
-                <div class="row">
+
+                <div class="row" v-if="rowDataRecipient.length">
                   <span>Envases</span>
                   <hr />
                 </div>
                 <div id="table">
-                  <table class="table">
+                  <table class="table mt-2">
                     <thead v-if="rowDataRecipient.length">
                       <th scope="col">Recipient</th>
                       <th scope="col">Dimensions</th>
@@ -638,11 +685,11 @@
                 <hr />
               </div>
               <div class="row">
-                <div class="col-6">
+                <div class="col-3">
                   <div class="row"><label>Agua:</label></div>
                   <div class="row"><span>(en L)</span></div>
                 </div>
-                <div class="col-6">
+                <div class="col-9">
                   <b-form-input
                     trim
                     type="number"
@@ -654,11 +701,11 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-6">
+                <div class="col-3">
                   <div class="row"><label>Electricidad:</label></div>
                   <div class="row"><span>(en KWh)</span></div>
                 </div>
-                <div class="col-6">
+                <div class="col-9">
                   <b-form-input
                     trim
                     type="number"
@@ -713,63 +760,64 @@
               <b-button @click="addNewProduct">Guardar producto</b-button>
             </div>
           </b-card-text>
-        </b-tab> -->
+        </b-tab>
       </b-tabs>
     </b-card>
   </div>
 </template>
 <script>
 import axios from "axios";
-import GeneralInfo from "./Product/GeneralInfo.vue";
-import Procurement from "./Product/Procurement.vue";
-import Transport from "./Product/Transport.vue";
-import Waste from "./Product/Waste.vue"
+
 export default {
   name: "AddProduct",
-  components: { GeneralInfo, Procurement, Transport, Waste },
   data() {
     return {
       step: 1,
-      // listTypeProd: [],
-      // selectedTypeProd: "",
-      // mensajeGeneralInfo: "",
-      // productName: "",
-      // productDescription: "",
-      // productOrigin: "",
+      isDisabled: false,
+      isDisabledProcurement: false,
+      isDisabledTransport: false,
+      isDisabledRecipient: false,
+      listTypeProd: [],
+      selectedTypeProd: "",
+      mensajeGeneralInfo: "",
+      productName: "",
+      productDescription: "",
+      productOrigin: "",
 
-      // Water: "",
-      // Electricity: "",
-      // listAnimals: [],
-      // idAnimal: "",
-      // selectedAnimal: "",
-      // quantityAnimal: "",
-      // isAnimalType: null,
-      // isVegetalType: null,
-      // rowDataAnimal: [],
-      // mensajeAnimal: "",
-      // listVegetals: [],
-      // selectedVegetal: "",
-      // fertilizerVegetal: "",
-      // pesticideVegetal: "",
-      // rowDataVegetal: [],
-      // mensajeVegetal: "",
+      Water: "",
+      Electricity: "",
+      listAnimals: [],
+      idAnimal: "",
+      selectedAnimal: "",
+      quantityAnimal: "",
+      isAnimalType: null,
+      isVegetalType: null,
+      rowDataAnimal: [],
+      mensajeAnimal: "",
+      listVegetals: [],
+      selectedVegetal: "",
+      fertilizerVegetal: "",
+      pesticideVegetal: "",
+      rowDataVegetal: [],
+      mensajeVegetal: "",
+      mensajeProcurement: "",
 
-      // listTransports: [],
-      // selectedTransport: "",
-      // transport: "",
-      // capacity: "",
-      // distance: "",
-      // maxDistance: "",
-      // maxCapacity: "",
-      // rowData: [],
-      // mensajeTransport: "",
+      listTransports: [],
+      selectedTransport: "",
+      transport: "",
+      capacity: "",
+      distance: "",
+      maxDistance: "",
+      maxCapacity: "",
+      rowData: [],
+      mensajeTransport: "",
 
-      // listRecipients: [],
-      // selectedRecipient: "",
-      // recipient: "",
-      // dimensionsRecipient: "",
-      // rowDataRecipient: [],
-      // mensajeRecipient: "",
+      listRecipients: [],
+      selectedRecipient: "",
+      recipient: "",
+      dimensionsRecipient: "",
+      rowDataRecipient: [],
+      mensajeRecipient: "",
 
       animalInstances: [],
       vegetalInstances: [],
@@ -778,307 +826,347 @@ export default {
     };
   },
   created() {
-    //user is not authorized
     if (localStorage.getItem("token") === null) {
       this.$router.push("/login");
     }
   },
   mounted() {
-    //this.getAllTypesProd();
-    // this.getAllAnimals();
-    // this.getAllVegetals();
-    //this.getAllTransports();
-    // this.getAllRecipients();
+    this.getAllTypesProd();
+    this.getAllAnimals();
+    this.getAllVegetals();
+    this.getAllTransports();
+    this.getAllRecipients();
   },
   methods: {
-    // getAllTypesProd() {
-    //   axios.get("/getAllTypeProd").then((res) => {
-    //     this.listTypeProd = res.data.message;
-    //   });
-    // },
-    // checkInfo(step) {
-    //   if (step == 1)
-    //     if (
-    //       this.productName == "" ||
-    //       this.productDescription == "" ||
-    //       this.productOrigin == "" ||
-    //       this.selectedTypeProd == ""
-    //     )
-    //       this.mensajeGeneralInfo = "Todos los campos son obligatorios";
-    //     else this.mensajeGeneralInfo = "";
-    // },
-    NextStep(step) {
-      //this.checkGeneralInfo(step);
+    getAllTypesProd() {
+      axios.get("/getAllTypeProd").then((res) => {
+        this.listTypeProd = res.data.message;
+      });
+    },
+    checkGeneralInfo() {
+      if (
+        this.productName == "" ||
+        this.productDescription == "" ||
+        this.productOrigin == "" ||
+        this.selectedTypeProd == ""
+      )
+        this.mensajeGeneralInfo = "Todos los campos son obligatorios";
+      else this.mensajeGeneralInfo = "";
+    },
+    NextStep1() {
+      this.checkGeneralInfo();
+      if (this.mensajeGeneralInfo == "") {
+        this.isDisabled = true;
+      }
       this.step = this.step + 1;
     },
-    // addAnimal() {
-    //   this.checkInfoAnimal();
-    //   if (this.mensajeAnimal == "") {
-    //     var newAnimal = {
-    //       selectedAnimal: this.selectedAnimal,
-    //       quantityAnimal: this.quantityAnimal,
-    //     };
-    //     this.rowDataAnimal.push(newAnimal);
-    //     this.selectedAnimal = "";
-    //     this.quantityAnimal = "";
-    //   }
-    // },
-    // checkInfoAnimal() {
-    //   //if(this.selectedTransport == '' || this.capacity == '' || this.distance == '') this.mensajeTransport = 'Todos los campos son obligatorios'
-    //   //else if(this.capacity >= this.maxCapacity || this.distance >= this.maxDistance) this.mensajeTransport = 'Comprueba los valores máximos'
-    // },
-    // deleteAnimal(index) {
-    //   this.rowDataAnimal.splice(index, 1);
-    // },
-    // addVegetal() {
-    //   this.checkInfoVegetal();
-    //   if (this.mensajeVegetal == "") {
-    //     var newVegetal = {
-    //       selectedVegetal: this.selectedVegetal,
-    //       fertilizerVegetal: this.fertilizerVegetal,
-    //       pesticideVegetal: this.pesticideVegetal,
-    //     };
-    //     this.rowDataVegetal.push(newVegetal);
-    //     this.fertilizerVegetal = "";
-    //     this.pesticideVegetal = "";
-    //   }
-    // },
-    // checkInfoVegetal() {
-    //   //if(this.selectedTransport == '' || this.capacity == '' || this.distance == '') this.mensajeTransport = 'Todos los campos son obligatorios'
-    //   //else if(this.capacity >= this.maxCapacity || this.distance >= this.maxDistance) this.mensajeTransport = 'Comprueba los valores máximos'
-    // },
-    // deleteVegetal(index) {
-    //   this.rowDataVegetal.splice(index, 1);
-    // },
-    // getAllVegetals() {
-    //   axios.get("/getAllVegetals").then((res) => {
-    //     this.listVegetals = res.data.message;
-    //   });
-    // },
-    // isAnimal(event) {
-    //   var optionText = event.target.value;
-    //   this.Water = optionText;
-    // },
-    // getAllAnimals() {
-    //   axios.get("/getAllAnimals").then((res) => {
-    //     this.listAnimals = res.data.message;
-    //   });
-    // },
-    // addTransport() {
-    //   this.checkInfoTransport();
-    //   if (this.mensajeTransport == "") {
-    //     var newTransport = {
-    //       selectedTransport: this.selectedTransport,
-    //       capacity: this.capacity,
-    //       distance: this.distance,
-    //     };
-    //     this.rowData.push(newTransport);
-    //     this.selectedTransport = "";
-    //     this.capacity = "";
-    //     this.distance = "";
-    //   }
-    // },
-    // checkInfoTransport() {
-    //   if (
-    //     this.selectedTransport.name == "" ||
-    //     this.capacity == "" ||
-    //     this.distance == ""
-    //   )
-    //     this.mensajeTransport = "Todos los campos son obligatorios";
-    //   else if (
-    //     this.capacity >= this.maxCapacity ||
-    //     this.distance >= this.maxDistance
-    //   )
-    //     this.mensajeTransport = "Comprueba los valores máximos";
-    // },
-    // deleteTransport(index) {
-    //   this.rowData.splice(index, 1);
-    // },
-    // getAllTransports() {
-    //   axios.get("/getAllTransports").then((res) => {
-    //     this.listTransports = res.data.message;
-    //   });
-    // },
-    // getMaxParams() {
-    //   this.getMaxDistance();
-    //   this.getMaxCapacity();
-    // },
-    // getMaxDistance() {
-    //   this.maxDistance = this.listTransports.find(
-    //     (x) => x.name == this.selectedTransport.name
-    //   ).distance;
-    // },
-    // getMaxCapacity() {
-    //   this.maxCapacity = this.listTransports.find(
-    //     (x) => x.name == this.selectedTransport.name
-    //   ).capacity;
-    // },
-    // addRecipient() {
-    //   //this.checkInfoRecipient();
-    //   //if (this.mensajeRecipient == "") {
-    //   var newRecipient = {
-    //     selectedRecipient: this.selectedRecipient,
-    //     dimensionsRecipient: this.dimensionsRecipient,
-    //   };
-    //   this.rowDataRecipient.push(newRecipient);
-    //   this.dimensionsRecipient = "";
-    //   //}
-    // },
-    // checkInfoRecipient() {
-    //   //if(this.selectedTransport == '' || this.capacity == '' || this.distance == '') this.mensajeTransport = 'Todos los campos son obligatorios'
-    //   //else if(this.capacity >= this.maxCapacity || this.distance >= this.maxDistance) this.mensajeTransport = 'Comprueba los valores máximos'
-    // },
-    // deleteRecipient(index) {
-    //   this.rowDataRecipient.splice(index, 1);
-    // },
-    // getAllRecipients() {
-    //   axios.get("/getAllRecipients").then((res) => {
-    //     this.listRecipients = res.data.message;
-    //   });
-    // },
+    NextStep2() {
+      this.checkProcurementInfo();
+      if (this.mensajeProcurement == "") {
+        this.isDisabledProcurement = true;
+      }
+      this.step = this.step + 1;
+    },
+    checkProcurementInfo() {
+      if (
+        this.water == "" ||
+        this.electricity == ""
+      )
+        this.mensajeProcurement = "Todos los campos son obligatorios";
+      else this.mensajeProcurement = "";
+    },
+    checkInfoAnimal() {
+      if (this.selectedAnimal == "" || this.quantityAnimal == "")
+        this.mensajeAnimal = "Todos los campos del animal son obligatorios";
+      else this.mensajeAnimal = "";
+    },
+    checkInfoVegetal() {
+      if (
+        this.selectedVegetal == "" ||
+        this.pesticideVegetal == "" ||
+        this.fertilizerVegetal == ""
+      )
+        this.mensajeVegetal = "Todos los campos del vegetal son obligatorios";
+      else this.mensajeVegetal = "";
+    },
 
+    NextStep4() {
+      this.checkInfoTransport();
+      if (this.mensajeTransport == "") {
+        this.isDisabledTransport = true;
+      }
+      this.step = this.step + 1;
+    },
+    checkInfoTransport() {
+      if (
+        this.selectedTransport.name == "" ||
+        this.capacity == "" ||
+        this.distance == ""
+      )
+        this.mensajeTransport =
+          "Todos los campos del transporte son obligatorios";
+      else if (
+        this.capacity >= this.maxCapacity ||
+        this.distance >= this.maxDistance
+      )
+        this.mensajeTransport = "Comprueba los valores máximos";
+    },
+    NextStep3() {
+      //this.checkGeneralInfo();
+      this.step = 4;
+    },
+    checkInfoRecipient() {
+      if (this.selectedRecipient == "" || this.dimensionsRecipient == "")
+        this.mensajeRecipient = "Todos los campos del envase son obligatorios";
+      else this.mensajeRecipient = "";
+    },
+    NextStep5() {
+      this.checkGeneralInfo();
+      this.step = 2;
+    },
+    deleteVegetal(index) {
+      this.rowDataVegetal.splice(index, 1);
+      this.vegetalInstances.splice(index, 1);
+    },
+    getAllVegetals() {
+      axios.get("/getAllVegetals").then((res) => {
+        this.listVegetals = res.data.message;
+      });
+    },
+    isAnimal(event) {
+      var optionText = event.target.value;
+      this.Water = optionText;
+    },
+    getAllAnimals() {
+      axios.get("/getAllAnimals").then((res) => {
+        this.listAnimals = res.data.message;
+      });
+    },
+    deleteTransport(index) {
+      this.rowData.splice(index, 1);
+      this.transportInstances.splice(index, 1);
+    },
+    getAllTransports() {
+      axios.get("/getAllTransports").then((res) => {
+        this.listTransports = res.data.message;
+      });
+    },
+    getMaxParams() {
+      this.getMaxDistance();
+      this.getMaxCapacity();
+    },
+    getMaxDistance() {
+      this.maxDistance = this.listTransports.find(
+        (x) => x.name == this.selectedTransport.name
+      ).distance;
+    },
+    getMaxCapacity() {
+      this.maxCapacity = this.listTransports.find(
+        (x) => x.name == this.selectedTransport.name
+      ).capacity;
+    },
+    deleteRecipient(index) {
+      this.rowDataRecipient.splice(index, 1);
+      this.recipientInstances.splice(index, 1);
+    },
+    getAllRecipients() {
+      axios.get("/getAllRecipients").then((res) => {
+        this.listRecipients = res.data.message;
+      });
+    },
+    deleteAnimal(index) {
+      this.rowDataAnimal.splice(index, 1);
+      this.animalInstances.splice(index, 1);
+    },
+    addAnimal() {
+      this.checkInfoAnimal();
+      if (this.mensajeAnimal == "") {
+        var newAnimal = {
+          selectedAnimal: this.selectedAnimal,
+          quantityAnimal: this.quantityAnimal,
+        };
+        this.rowDataAnimal.push(newAnimal);
+        this.createAnimalInstances(newAnimal);
+        this.selectedAnimal = "";
+        this.quantityAnimal = "";
+      }
+    },
+    createAnimalInstances(newAnimal) {
+      let newAnimalInstance = {
+        animal: newAnimal.selectedAnimal,
+        quantity: newAnimal.quantityAnimal,
+      };
+      axios
+        .post("/addAnimalInstance", newAnimalInstance, {
+          headers: {
+            authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then(
+          (res) => {
+            this.error = "";
+            this.mensaje = "Producto creado";
+            this.name = "";
+            this.animalInstances.push(newAnimalInstance);
+          },
+          (err) => {
+            this.error = err.response.data.error;
+          }
+        );
+    },
+    addVegetal() {
+      this.checkInfoVegetal();
+      if (this.mensajeVegetal == "") {
+        var newVegetal = {
+          selectedVegetal: this.selectedVegetal,
+          fertilizerVegetal: this.fertilizerVegetal,
+          pesticideVegetal: this.pesticideVegetal,
+        };
+        this.rowDataVegetal.push(newVegetal);
+        this.createVegetalInstances(newVegetal);
 
+        this.fertilizerVegetal = "";
+        this.pesticideVegetal = "";
+      }
+    },
+    createVegetalInstances(newVegetal) {
+      let newVegetalInstance = {
+        vegetal: newVegetal.selectedVegetal,
+        pesticide: newVegetal.pesticideVegetal,
+        fertilizer: newVegetal.fertilizerVegetal,
+      };
+      axios
+        .post("/addVegetalInstance", newVegetalInstance, {
+          headers: {
+            authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then(
+          (res) => {
+            this.error = "";
+            this.mensaje = "Producto creado";
+            this.name = "";
+            this.vegetalInstances.push(newVegetalInstance);
+          },
+          (err) => {
+            this.error = err.response.data.error;
+          }
+        );
+    },
+    addTransport() {
+      this.checkInfoTransport();
+      if (this.mensajeTransport == "") {
+        var newTransport = {
+          selectedTransport: this.selectedTransport,
+          capacity: this.capacity,
+          distance: this.distance,
+        };
+        this.rowData.push(newTransport);
+        this.createTransportInstances(newTransport);
+        this.selectedTransport = "";
+        this.capacity = "";
+        this.distance = "";
+      }
+    },
+    createTransportInstances(newTransport) {
+      let newTransportInstance = {
+        transport: newTransport.selectedTransport,
+        capacity: newTransport.capacity,
+        distance: newTransport.distance,
+      };
+      axios
+        .post("/addTransportInstance", newTransportInstance, {
+          headers: {
+            authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then(
+          (res) => {
+            this.error = "";
+            this.mensaje = "Producto creado";
+            this.name = "";
+            this.transportInstances.push(newTransportInstance);
+          },
+          (err) => {
+            this.error = err.response.data.error;
+          }
+        );
+    },
+    addRecipient() {
+      this.checkInfoRecipient();
+      if (this.mensajeRecipient == "") {
+        var newRecipient = {
+          selectedRecipient: this.selectedRecipient,
+          dimensionsRecipient: this.dimensionsRecipient,
+        };
+        this.rowDataRecipient.push(newRecipient);
+        this.createRecipientInstances(newRecipient);
 
-    // createAnimalInstances() {
-    //   this.rowDataAnimal.forEach((element) => {
-    //     let newAnimalInstance = {
-    //       animal: element.selectedAnimal,
-    //       quantity: element.quantityAnimal,
-    //     };
-    //     axios
-    //       .post("/addAnimalInstance", newAnimalInstance, {
-    //         headers: {
-    //           authorization: "Bearer " + localStorage.getItem("token"),
-    //         },
-    //       })
-    //       .then(
-    //         (res) => {
-    //           this.error = "";
-    //           this.mensaje = "Producto creado";
-    //           this.name = "";
-    //           this.animalInstances.push(newAnimalInstance);
-    //         },
-    //         (err) => {
-    //           this.error = err.response.data.error;
-    //         }
-    //       );
-    //   });
-    // },
-    // createVegetalInstances() {
-    //   this.rowDataVegetal.forEach((element) => {
-    //     let newVegetalInstance = {
-    //       vegetal: element.selectedVegetal,
-    //       pesticide: element.pesticideVegetal,
-    //       fertilizer: element.fertilizerVegetal,
-    //     };
-    //     axios
-    //       .post("/addVegetalInstance", newVegetalInstance, {
-    //         headers: {
-    //           authorization: "Bearer " + localStorage.getItem("token"),
-    //         },
-    //       })
-    //       .then(
-    //         (res) => {
-    //           this.error = "";
-    //           this.mensaje = "Producto creado";
-    //           this.name = "";
-    //           this.vegetalInstances.push(newVegetalInstance);
-    //         },
-    //         (err) => {
-    //           this.error = err.response.data.error;
-    //         }
-    //       );
-    //   });
-    // },
-    // createTransportInstances() {
-    //   this.rowData.forEach((element) => {
-    //     let newTransportInstance = {
-    //       transport: element.selectedTransport,
-    //       capacity: element.capacity,
-    //       distance: element.distance,
-    //     };
-    //     axios
-    //       .post("/addTransportInstance", newTransportInstance, {
-    //         headers: {
-    //           authorization: "Bearer " + localStorage.getItem("token"),
-    //         },
-    //       })
-    //       .then(
-    //         (res) => {
-    //           this.error = "";
-    //           this.mensaje = "Producto creado";
-    //           this.name = "";
-    //           this.transportInstances.push(newTransportInstance);
-    //         },
-    //         (err) => {
-    //           this.error = err.response.data.error;
-    //         }
-    //       );
-    //   });
-    // },
-    // createRecipientInstances() {
-    //   this.rowDataRecipient.forEach((element) => {
-    //     let newRecipientInstance = {
-    //       recipient: element.selectedRecipient,
-    //       dimensions: element.dimensionsRecipient,
-    //     };
-    //     axios
-    //       .post("/addRecipientInstance", newRecipientInstance, {
-    //         headers: {
-    //           authorization: "Bearer " + localStorage.getItem("token"),
-    //         },
-    //       })
-    //       .then(
-    //         (res) => {
-    //           this.error = "";
-    //           this.mensaje = "Producto creado";
-    //           this.name = "";
-    //           this.recipientInstances.push(newRecipientInstance);
-    //         },
-    //         (err) => {
-    //           this.error = err.response.data.error;
-    //         }
-    //       );
-    //   });
-    // },
-    // addNewProduct() {
-    //   this.createAnimalInstances();
-    //   this.createVegetalInstances();
-    //   this.createTransportInstances();
-    //   this.createRecipientInstances();
-    //   let newProduct = {
-    //     //General info
-    //     name: this.productName,
-    //     description: this.productDescription,
-    //     origin: this.productOrigin,
-    //     typeProd: this.typeProd, //o Id?
-    //     //Procurement
-    //     water: this.Water,
-    //     electricity: this.Electricity,
-    //     //crear las AnimalInstances
-    //     animals: this.animalInstances,
-    //     //crear las VegetalInstances
-    //     vegetals: this.vegetalInstances,
-    //     //crear las TransportInstances
-    //     transports: this.transportInstances,
-    //     //crear las WasteInstances
-    //     recipients: this.recipientInstances,
-    //   };
-    //   axios
-    //     .post("/addProduct", newProduct, {
-    //       headers: { authorization: "Bearer " + localStorage.getItem("token") },
-    //     })
-    //     .then(
-    //       (res) => {
-    //         this.error = "";
-    //         this.mensaje = "Producto creado";
-    //         this.name = "";
-    //       },
-    //       (err) => {
-    //         this.error = err.response.data.error;
-    //       }
-    //     );
-    // },
+        this.dimensionsRecipient = "";
+      }
+    },
+    createRecipientInstances(newRecipient) {
+      let newRecipientInstance = {
+        recipient: newRecipient.selectedRecipient,
+        dimensions: newRecipient.dimensionsRecipient,
+      };
+      axios
+        .post("/addRecipientInstance", newRecipientInstance, {
+          headers: {
+            authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then(
+          (res) => {
+            this.error = "";
+            this.mensaje = "Producto creado";
+            this.name = "";
+            this.recipientInstances.push(newRecipientInstance);
+          },
+          (err) => {
+            this.error = err.response.data.error;
+          }
+        );
+    },
+    addNewProduct() {
+      let newProduct = {
+        //General info
+        name: this.productName,
+        description: this.productDescription,
+        origin: this.productOrigin,
+        typeProd: this.typeProd, //o Id?
+        //Procurement
+        water: this.Water,
+        electricity: this.Electricity,
+        //crear las AnimalInstances
+        animals: this.animalInstances,
+        //crear las VegetalInstances
+        vegetals: this.vegetalInstances,
+        //crear las TransportInstances
+        transports: this.transportInstances,
+        //crear las WasteInstances
+        recipients: this.recipientInstances,
+      };
+      axios
+        .post("/addProduct", newProduct, {
+          headers: { authorization: "Bearer " + localStorage.getItem("token") },
+        })
+        .then(
+          (res) => {
+            this.error = "";
+            this.mensaje = "Producto creado";
+            this.$router.push("/productlist");
+          },
+          (err) => {
+            this.error = err.response.data.error;
+          }
+        );
+    },
   },
 };
 </script>
+<style scoped>
+.input--error {
+  border-color: red;
+}
+</style>

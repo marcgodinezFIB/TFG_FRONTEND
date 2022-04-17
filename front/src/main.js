@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import { BootstrapVue, IconsPlugin, BootstrapVueIcons } from 'bootstrap-vue'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '@/assets/css/main.css'
@@ -10,7 +10,9 @@ import VueAxios from 'vue-axios'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 export const eventBus = new Vue();
 
+
 Vue.use(BootstrapVue)
+Vue.use(BootstrapVueIcons)
 Vue.use(IconsPlugin)
 Vue.use(VueAxios, axios)
 

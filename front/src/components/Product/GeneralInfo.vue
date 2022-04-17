@@ -82,9 +82,9 @@ export default {
   name: "GeneralInfo",
   props: {
     basicInfo: {
-      product_name: String,
-      product_description: String,
-      product_origin: String,
+      productName: String,
+      productDescription: String,
+      productOrigin: String,
     },
   },
   data() {

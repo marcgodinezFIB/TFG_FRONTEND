@@ -99,6 +99,7 @@ addRecipient() {
       };
       this.rowDataRecipient.push(newRecipient);
       this.dimensionsRecipient = "";
+      this.selectedRecipient = "";
       //}
     },
     checkInfoRecipient() {
