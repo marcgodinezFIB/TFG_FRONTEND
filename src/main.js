@@ -17,7 +17,7 @@ Vue.use(IconsPlugin)
 Vue.use(VueAxios, axios)
 
 axios.defaults.baseURL = 'http://localhost:3000/api/';
-Vue.config.productionTip = false
+Vue.config.productionTip = true
 //axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token}`;
 
 new Vue({
