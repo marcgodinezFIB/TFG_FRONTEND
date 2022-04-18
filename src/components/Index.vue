@@ -21,13 +21,28 @@
       </div>
       <div class="row mt-4 mb-5">
         <div class="col" style="text-align: center">
-          <b-button variant="outline-secondary" href="/addproduct"
+          <b-button
+            v-if="isLoggedIn"
+            variant="outline-secondary"
+            href="/addproduct"
             ><a style="font-size: 12px">Añadir producto</a></b-button
+          >
+          <b-button v-if="!isLoggedIn" variant="outline-secondary" href="/login"
+            ><a style="font-size: 12px">Login</a></b-button
           >
         </div>
         <div class="col" style="text-align: center">
-          <b-button variant="outline-secondary" href="/productlist"
+          <b-button
+            v-if="isLoggedIn"
+            variant="outline-secondary"
+            href="/productlist"
             ><a style="font-size: 12px">Ver mis productos</a></b-button
+          >
+          <b-button
+            v-if="!isLoggedIn"
+            variant="outline-secondary"
+            href="/signup"
+            ><a style="font-size: 12px">Registrarse</a></b-button
           >
         </div>
       </div>
@@ -51,7 +66,7 @@
           </div>
         </div>
       </div>
-            <div class="col-6" style="text-align: center">
+      <div class="col-6" style="text-align: center">
         <div class="row">
           <div class="col">
             <h6><a style="font-size: 12px">Sobre la iniciativa</a></h6>
@@ -60,7 +75,8 @@
         <div class="row">
           <div class="col">
             <a style="font-size: 12px"
-              >La iniciativa ha sido desarrollada como Proyecto final de Grado y los valores que encontrarán en la herramienta son ejemplos.</a
+              >La iniciativa ha sido desarrollada como Proyecto final de Grado y
+              los valores que encontrarán en la herramienta son ejemplos.</a
             >
           </div>
         </div>
@@ -80,8 +96,10 @@ export default {
       mensaje: "",
     };
   },
-  mounted() {
-    this.checkUser();
+  computed: {
+    isLoggedIn() {
+      return !!localStorage.getItem("token");
+    },
   },
   methods: {
     login() {
