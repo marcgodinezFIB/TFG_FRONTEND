@@ -11,7 +11,7 @@
             <td>{{ item.name }}</td>
             <td>{{ item.CO2Perm3 }}</td>
             <td>
-              <b-button @click="deleteRecipient(item, index)">Eliminar</b-button>
+              <b-button size="sm" variant="outline-danger" @click="deleteRecipient(item, index)">Eliminar</b-button>
             </td>
           </tr>
         </tbody>

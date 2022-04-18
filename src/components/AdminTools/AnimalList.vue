@@ -16,7 +16,7 @@
             <td>{{ item.weight }}</td>
             <td>{{ item.CO2PerYear }}</td>
             <td>
-              <b-button @click="deleteAnimal(item, index)">Eliminar</b-button>
+              <b-button size="sm" variant="outline-danger" @click="deleteAnimal(item, index)">Eliminar</b-button>
             </td>
           </tr>
         </tbody>

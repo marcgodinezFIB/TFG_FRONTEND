@@ -13,7 +13,7 @@
             <td>{{ item.distance }}</td>
             <td>{{ item.capacity }}</td>
             <td>
-              <b-button @click="deleteTransport(item, index)">Eliminar</b-button>
+              <b-button size="sm" variant="outline-danger" @click="deleteTransport(item, index)">Eliminar</b-button>
             </td>
           </tr>
         </tbody>

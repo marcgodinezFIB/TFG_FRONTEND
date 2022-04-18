@@ -67,7 +67,7 @@
       </div>
       <div class="row">
         <div class="col-6">
-          <b-button @click="CreateNewAnimal">Crear</b-button>
+          <b-button size="sm" variant="outline-secondary" @click="CreateNewAnimal">Crear</b-button>
         </div>
       </div>
     </div>

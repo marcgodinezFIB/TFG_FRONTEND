@@ -16,7 +16,7 @@
             </div>
             <div class="row">
                 <div class="col-6">
-                    <b-button @click="CreateNewTypeProd">Crear</b-button>
+                    <b-button size="sm" variant="outline-secondary" @click="CreateNewTypeProd">Crear</b-button>
                 </div>
             </div>
         </div>

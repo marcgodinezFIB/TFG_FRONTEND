@@ -24,7 +24,7 @@
             </div>
             <div class="row">
                 <div class="col-6">
-                    <b-button @click="CreateNewRecipient">Crear</b-button>
+                    <b-button size="sm" variant="outline-secondary" @click="CreateNewRecipient">Crear</b-button>
                 </div>
             </div>
         </div>

@@ -12,7 +12,7 @@
         <div class="form-group">
         <b-form-input trim type="password" class="form-control my-2" placeholder="Password" v-model="password" />
         </div>
-        <b-button class="btn btn-dark btn-lg btn-block" @click="login" style="float:right">Acceder</b-button>
+        <b-button variant="outline-secondary" class="btn btn-dark btn-lg btn-block" @click="login" style="float:right">Acceder</b-button>
     </b-card>
 </template>
 

@@ -10,7 +10,7 @@
             <td>{{ item.name }}</td>
 
             <td>
-              <b-button @click="deleteVegetal(item, index)">Eliminar</b-button>
+              <b-button size="sm" variant="outline-danger" @click="deleteVegetal(item, index)">Eliminar</b-button>
             </td>
           </tr>
         </tbody>

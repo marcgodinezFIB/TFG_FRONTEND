@@ -56,7 +56,7 @@
             ></b-form-input>
 
             <b-input-group-append>
-              <b-button :disabled="!filter" @click="filter = ''"
+              <b-button size="sm" variant="outline-secondary" :disabled="!filter" @click="filter = ''"
                 >Clear</b-button
               >
             </b-input-group-append>
@@ -80,16 +80,22 @@
       @filtered="onFiltered"
     >
       <template #cell(actions)="row">
-        <b-button size="sm" @click="info(row.item, $event.target)">
-          Info modal
-        </b-button>
-        <b-button
-          size="sm"
-          @click="deleteProduct(row.item, row.index)"
-          class="mt-2"
+        <b-button-group
+          ><b-button
+            variant="outline-secondary"
+            size="sm"
+            @click="info(row.item, $event.target)"
+          >
+            Info product
+          </b-button>
+          <b-button
+            variant="outline-danger"
+            size="sm"
+            @click="deleteProduct(row.item, row.index)"
+          >
+            Delete product
+          </b-button></b-button-group
         >
-          Delete product
-        </b-button>
       </template>
     </b-table>
     <b-modal
@@ -215,7 +221,7 @@ export default {
     this.totalRows = this.items.length;
   },
   methods: {
-    info(item,button) {
+    info(item, button) {
       this.infoModal.title = item.name;
       this.infoModal.content = JSON.stringify(item, null, 2);
       this.$root.$emit("bv::show::modal", this.infoModal.id, button);
