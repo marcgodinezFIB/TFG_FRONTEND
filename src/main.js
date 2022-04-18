@@ -16,7 +16,7 @@ Vue.use(BootstrapVueIcons)
 Vue.use(IconsPlugin)
 Vue.use(VueAxios, axios)
 
-axios.defaults.baseURL = 'http://footprintscanv00.herokuapp.com/api/';
+axios.defaults.baseURL = 'https://footprintscanv00.herokuapp.com/api/';
 Vue.config.productionTip = true
 //axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token}`;
 
