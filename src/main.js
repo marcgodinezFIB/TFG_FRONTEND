@@ -17,10 +17,10 @@ Vue.use(IconsPlugin)
 Vue.use(VueAxios, axios)
 
 //local
-axios.defaults.baseURL = 'https://localhost:3000/api/';
+//axios.defaults.baseURL = 'https://localhost:3000/api/';
 
 //production
-//axios.defaults.baseURL = 'https://footprintscanv00.herokuapp.com/api/';
+axios.defaults.baseURL = 'https://footprintscanv00.herokuapp.com/api/';
 
 Vue.config.productionTip = true
 //axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token}`;
