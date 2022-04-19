@@ -19,33 +19,7 @@
       <div class="col" style="text-align: center">
         <a> Calcula la huella de carbono que generan tus productos. </a>
       </div>
-      <div class="row mt-4 mb-5">
-        <div class="col" style="text-align: center">
-          <b-button
-            v-if="isLoggedIn"
-            variant="outline-secondary"
-            href="/addproduct"
-            ><a style="font-size: 12px">Añadir producto</a></b-button
-          >
-          <b-button v-if="!isLoggedIn" variant="outline-secondary" href="/login"
-            ><a style="font-size: 12px">Login</a></b-button
-          >
-        </div>
-        <div class="col" style="text-align: center">
-          <b-button
-            v-if="isLoggedIn"
-            variant="outline-secondary"
-            href="/productlist"
-            ><a style="font-size: 12px">Ver mis productos</a></b-button
-          >
-          <b-button
-            v-if="!isLoggedIn"
-            variant="outline-secondary"
-            href="/signup"
-            ><a style="font-size: 12px">Registrarse</a></b-button
-          >
-        </div>
-      </div>
+      
     </div>
 
     <div class="row mt-5">
