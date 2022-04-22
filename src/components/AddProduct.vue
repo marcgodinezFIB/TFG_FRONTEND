@@ -51,22 +51,6 @@
                     />
                   </div>
                 </div>
-                <div class="row cascading-dropdown">
-                  <div class="col-3">
-                    <label>Tipo de producto:</label>
-                  </div>
-                  <div class="col-3 dropdown">
-                    <select v-model="selectedTypeProd">
-                      <option
-                        v-for="(typeprod, _id) in listTypeProd"
-                        :value="typeprod.name"
-                        :key="_id"
-                      >
-                        {{ typeprod.name }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
                 <div class="row mt-3">
                   <div class="col-6" style="text-align: end">
                     <b-button-group
@@ -136,65 +120,47 @@
                     />
                   </div>
                 </div>
+                <hr />
+                <div class="row"></div>
                 <div class="row">
                   <div class="col-6">
-                    <div class="row"><label>¿Origen Animal?</label></div>
+                    <div class="row"><label>Alimento</label></div>
                   </div>
-                  <div class="col-6">
-                    <div class="form-check form-check-inline">
-                      <input
-                        class="form-check-input"
-                        type="radio"
-                        :disabled="isDisabledProcurement"
-                        name="inlineRadioAnimalOptions"
-                        id="inlineRadioAnimalYes"
-                        v-model="isAnimalType"
-                        value="isAnimalYes"
-                      />
-                      <label class="form-check-label" for="inlineRadioYes"
-                        >Sí</label
-                      >
-                    </div>
-                    <div class="form-check form-check-inline">
-                      <input
-                        class="form-check-input"
-                        type="radio"
-                        :disabled="isDisabledProcurement"
-                        name="inlineRadioAnimalOptions"
-                        id="inlineRadioAnimalNo"
-                        v-model="isAnimalType"
-                        value="isAnimalNo"
-                      />
-                      <label class="form-check-label" for="inlineRadioNo"
-                        >No</label
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div class="row" v-if="isAnimalType === 'isAnimalYes'">
-                  <div class="col-6">
-                    <div class="row"><label>Animal</label></div>
-                  </div>
-                  <div class="col-3 dropdown">
-                    <select v-model="selectedAnimal">
+
+                  <div class="col-2 dropdown">
+                    <select
+                      v-model="selectedFoodType"
+                      @change="changeFoodType(selectedFoodType.name)"
+                    >
                       <option
-                        v-for="(animal, _id) in listAnimals"
-                        :value="animal"
+                        v-for="(foodtype, _id) in listFoodTypes"
+                        :value="foodtype"
                         :disabled="isDisabledProcurement"
                         :key="_id"
-                        :class="{ 'input--error': !animal }"
+                        :class="{ 'input--error': !food }"
                       >
-                        {{ animal.name }}
+                        {{ foodtype.name }}
                       </option>
                     </select>
                   </div>
-                  <div class="col-3">
-                    <b-button size="sm" variant="outline-secondary" @click="addAnimal"
-                      >Add</b-button
-                    >
+                </div>
+                <div class="row mt-2">
+                  <div class="col-6"></div>
+                  <div class="col-4 dropdown">
+                    <select v-model="selectedFood">
+                      <option
+                        v-for="(food, _id) in listFoods"
+                        :value="food"
+                        :disabled="isDisabledProcurement"
+                        :key="_id"
+                        :class="{ 'input--error': !food }"
+                      >
+                        {{ food.name }}
+                      </option>
+                    </select>
                   </div>
                 </div>
-                <div class="row" v-if="isAnimalType === 'isAnimalYes'">
+                <div class="row">
                   <div class="col-6">
                     <div class="row"><label>Cantidad:</label></div>
                     <div class="row"><span>(en Kg)</span></div>
@@ -205,98 +171,19 @@
                       type="number"
                       required
                       :disabled="isDisabledProcurement"
-                      v-model="quantityAnimal"
+                      v-model="quantityFood"
                       class="form-control my-2"
                     />
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-6">
-                    <div class="row"><label>¿Origen Vegetal?</label></div>
-                  </div>
-                  <div class="col-6">
-                    <div class="form-check form-check-inline">
-                      <input
-                        class="form-check-input"
-                        type="radio"
-                        :disabled="isDisabledProcurement"
-                        name="inlineRadioVegetalOptions"
-                        id="inlineRadioVegYes"
-                        v-model="isVegetalType"
-                        value="isVegetalYes"
-                      />
-                      <label class="form-check-label" for="inlineRadioVegYes"
-                        >Sí</label
-                      >
-                    </div>
-                    <div class="form-check form-check-inline">
-                      <input
-                        class="form-check-input"
-                        type="radio"
-                        :disabled="isDisabledProcurement"
-                        name="inlineRadioVegetalOptions"
-                        id="inlineRadioVegNo"
-                        v-model="isVegetalType"
-                        value="isVegetalNo"
-                      />
-                      <label class="form-check-label" for="inlineRadioVegNo"
-                        >No</label
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div class="row" v-if="isVegetalType === 'isVegetalYes'">
-                  <div class="col-6">
-                    <div class="row"><label>Vegetal</label></div>
-                  </div>
-                  <div class="col-3 dropdown">
-                    <select v-model="selectedVegetal">
-                      <option
-                        v-for="(vegetal, _id) in listVegetals"
-                        :value="vegetal"
-                        :key="_id"
-                        :disabled="isDisabledProcurement"
-                      >
-                        {{ vegetal.name }}
-                      </option>
-                    </select>
-                  </div>
-                  <div class="col-3">
-                    <b-button size="sm" variant="outline-secondary" @click="addVegetal"
+                  <div class="col" style="text-align: end">
+                    <b-button
+                      size="sm"
+                      variant="outline-secondary"
+                      @click="addFood"
                       >Add</b-button
                     >
-                  </div>
-                </div>
-                <div class="row" v-if="isVegetalType === 'isVegetalYes'">
-                  <div class="col-6">
-                    <div class="row"><label>Abono:</label></div>
-                    <div class="row"><span>(en Kg)</span></div>
-                  </div>
-                  <div class="col-6">
-                    <b-form-input
-                      trim
-                      type="number"
-                      :disabled="isDisabledProcurement"
-                      v-model="fertilizerVegetal"
-                      required
-                      class="form-control my-2"
-                    />
-                  </div>
-                </div>
-                <div class="row" v-if="isVegetalType === 'isVegetalYes'">
-                  <div class="col-6">
-                    <div class="row"><label>Pesticidas:</label></div>
-                    <div class="row"><span>(en Kg)</span></div>
-                  </div>
-                  <div class="col-6">
-                    <b-form-input
-                      trim
-                      type="number"
-                      required
-                      :disabled="isDisabledProcurement"
-                      v-model="pesticideVegetal"
-                      class="form-control my-2"
-                    />
                   </div>
                 </div>
                 <div class="row">
@@ -311,63 +198,31 @@
                 </div>
                 <div class="row">
                   <div class="col">
-                    <b-alert v-if="mensajeAnimal != ''" show variant="danger">{{
-                      mensajeAnimal
+                    <b-alert v-if="mensajeFood != ''" show variant="danger">{{
+                      mensajeFood
                     }}</b-alert>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col">
-                    <b-alert
-                      v-if="mensajeVegetal != ''"
-                      show
-                      variant="danger"
-                      >{{ mensajeVegetal }}</b-alert
-                    >
-                  </div>
-                </div>
               </div>
-              <div class="col-6">
+              <div class="col-1"></div>
+              <div class="col-5">
                 <div id="table">
                   <table class="table">
-                    <thead v-if="rowDataAnimal.length">
+                    <thead v-if="rowDataFood.length">
                       <th scope="col">Name</th>
                       <th scope="col">Cantidad (en Kg)</th>
+                      <th scope="col">CO2 por kg</th>
                     </thead>
                     <tbody>
-                      <tr v-for="(item, index) in rowDataAnimal" :key="item.id">
-                        <td>{{ item.selectedAnimal.name }}</td>
-                        <td>{{ item.quantityAnimal }}</td>
+                      <tr v-for="(item, index) in rowDataFood" :key="item.id">
+                        <td>{{ item.selectedFood.name }}</td>
+                        <td>{{ item.quantityFood }}</td>
+                        <td>{{ item.selectedFood.CO2PerKg }}</td>
                         <td>
-                          <b-button size="sm"
+                          <b-button
+                            size="sm"
                             variant="outline-danger"
-                            @click="deleteAnimal(index)"
-                            >Eliminar</b-button
-                          >
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div id="table">
-                  <table class="table">
-                    <thead v-if="rowDataVegetal.length">
-                      <th scope="col">Name</th>
-                      <th scope="col">Abono (en Kg)</th>
-                      <th scope="col">Pesticidas (en Kg)</th>
-                    </thead>
-                    <tbody>
-                      <tr
-                        v-for="(item, index) in rowDataVegetal"
-                        :key="item.id"
-                      >
-                        <td>{{ item.selectedVegetal.name }}</td>
-                        <td>{{ item.fertilizerVegetal }}</td>
-                        <td>{{ item.pesticideVegetal }}</td>
-                        <td>
-                          <b-button size="sm"
-                            variant="outline-danger"
-                            @click="deleteVegetal(index)"
+                            @click="deleteFood(index)"
                             >Eliminar</b-button
                           >
                         </td>
@@ -456,7 +311,8 @@
                 </div>
                 <div class="row" style="text-align: end">
                   <div class="col">
-                    <b-button size="sm"
+                    <b-button
+                      size="sm"
                       variant="outline-secondary"
                       :disabled="isDisabledTransport"
                       @click="addTransport"
@@ -476,7 +332,8 @@
                   </div>
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-1"></div>
+              <div class="col-5">
                 <div id="table">
                   <table class="table">
                     <thead v-if="rowData.length">
@@ -490,7 +347,8 @@
                         <td>{{ item.distance }}</td>
                         <td>{{ item.capacity }}</td>
                         <td>
-                          <b-button size="sm"
+                          <b-button
+                            size="sm"
                             variant="outline-danger"
                             @click="deleteTransport(index)"
                             >Eliminar</b-button
@@ -527,10 +385,10 @@
             <div class="row">
               <div class="col-6">
                 <div class="row">
-                  <div class="col-3">
+                  <div class="col-6">
                     <div class="row"><label>Tipo de envase</label></div>
                   </div>
-                  <div class="col-3 dropdown">
+                  <div class="col-6 dropdown">
                     <select v-model="selectedRecipient">
                       <option
                         v-for="(recipient, _id) in listRecipients"
@@ -543,12 +401,12 @@
                     </select>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-3">
+                <div class="row mt-2">
+                  <div class="col-6">
                     <div class="row"><label>Dimensiones:</label></div>
                     <div class="row"><span>(en m3)</span></div>
                   </div>
-                  <div class="col-3">
+                  <div class="col-6">
                     <b-form-input
                       trim
                       type="number"
@@ -559,15 +417,19 @@
                     />
                   </div>
                 </div>
-                <div class="row">
+                <div class="row mt-2" style="text-align: end">
                   <div class="col">
-                    <b-button size="sm" variant="outline-secondary" @click="addRecipient"
+                    <b-button
+                      size="sm"
+                      variant="outline-secondary"
+                      @click="addRecipient"
                       >Add</b-button
                     >
                   </div>
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-1"></div>
+              <div class="col-5">
                 <div id="table">
                   <table class="table">
                     <thead v-if="rowDataRecipient.length">
@@ -582,7 +444,8 @@
                         <td>{{ item.selectedRecipient.name }}</td>
                         <td>{{ item.dimensionsRecipient }}</td>
                         <td>
-                          <b-button size="sm"
+                          <b-button
+                            size="sm"
                             variant="outline-danger"
                             @click="deleteRecipient(index)"
                             >Eliminar</b-button
@@ -631,7 +494,7 @@
         >
           <b-card-text>
             <div class="row">
-              <div class="col-6">
+              <div class="col-6" style="width: 50%; height: 50%; float: left">
                 <div class="row">
                   <span>General Information</span>
                   <hr />
@@ -679,21 +542,45 @@
                   </div>
                   <div class="row">
                     <div class="col-3">
-                      <label>Tipo de producto:</label>
+                      <div class="row">
+                        <label>Agua:</label>
+                      </div>
+                      <div class="row">
+                        <a>(en L)</a>
+                      </div>
                     </div>
-                    <div class="col-9">
+                    <div class="col-4">
                       <b-form-input
                         trim
                         type="text"
                         disabled
-                        v-model="selectedTypeProd"
+                        v-model="Electricity"
+                        class="form-control my-2"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-3">
+                      <div class="row">
+                        <label>Electricidad:</label>
+                      </div>
+                      <div class="row">
+                        <a>(en KWh)</a>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <b-form-input
+                        trim
+                        type="text"
+                        disabled
+                        v-model="Water"
                         class="form-control my-2"
                       />
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-6" style="width: 50%; height: 50%; float: left">
                 <div class="row" v-if="rowData.length">
                   <span>Transporte</span>
                   <hr />
@@ -711,7 +598,8 @@
                         <td>{{ item.distance }}</td>
                         <td>{{ item.capacity }}</td>
                         <td>
-                          <b-button size="sm"
+                          <b-button
+                            size="sm"
                             variant="outline-danger"
                             @click="deleteTransport(index)"
                             >Eliminar</b-button
@@ -721,7 +609,39 @@
                     </tbody>
                   </table>
                 </div>
+              </div>
+              <div class="col-6" style="width: 50%; height: 50%; float: left">
+                <div class="row" v-if="rowDataFood.length">
+                  <span>Alimento</span>
+                  <hr />
+                </div>
+                <div id="table">
+                  <table class="table">
+                    <thead v-if="rowDataFood.length">
+                      <th scope="col">Name</th>
+                      <th scope="col">Cantidad (en Kg)</th>
+                      <th scope="col">CO2 por kg</th>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(item, index) in rowDataFood" :key="item.id">
+                        <td>{{ item.selectedFood.name }}</td>
+                        <td>{{ item.quantityFood }}</td>
+                        <td>{{ item.selectedFood.CO2PerKg }}</td>
+                        <td>
+                          <b-button
+                            size="sm"
+                            variant="outline-danger"
+                            @click="deleteFood(index)"
+                            >Eliminar</b-button
+                          >
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
 
+              <div class="col-6" style="width: 50%; height: 50%; float: left">
                 <div class="row" v-if="rowDataRecipient.length">
                   <span>Envases</span>
                   <hr />
@@ -740,7 +660,8 @@
                         <td>{{ item.selectedRecipient.name }}</td>
                         <td>{{ item.dimensionsRecipient }}</td>
                         <td>
-                          <b-button size="sm"
+                          <b-button
+                            size="sm"
                             variant="outline-danger"
                             @click="deleteRecipient(index)"
                             >Eliminar</b-button
@@ -752,89 +673,13 @@
                 </div>
               </div>
             </div>
-            <div class="col-6">
-              <div class="row">
-                <span>Obtención</span>
-                <hr />
-              </div>
-              <div class="row">
-                <div class="col-3">
-                  <div class="row"><label>Agua:</label></div>
-                  <div class="row"><span>(en L)</span></div>
-                </div>
-                <div class="col-9">
-                  <b-form-input
-                    trim
-                    type="number"
-                    required
-                    disabled
-                    v-model="Water"
-                    class="form-control my-2"
-                  />
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-3">
-                  <div class="row"><label>Electricidad:</label></div>
-                  <div class="row"><span>(en KWh)</span></div>
-                </div>
-                <div class="col-9">
-                  <b-form-input
-                    trim
-                    type="number"
-                    disabled
-                    v-model="Electricity"
-                    class="form-control my-2"
-                  />
-                </div>
-              </div>
-              <div class="row">
-                <table class="table">
-                  <thead v-if="rowDataAnimal.length">
-                    <th scope="col">Name</th>
-                    <th scope="col">Cantidad (en Kg)</th>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(item, index) in rowDataAnimal" :key="item.id">
-                      <td>{{ item.selectedAnimal.name }}</td>
-                      <td>{{ item.quantityAnimal }}</td>
-                      <td>
-                        <b-button size="sm"
-                          variant="outline-danger"
-                          @click="deleteAnimal(index)"
-                          >Eliminar</b-button
-                        >
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div id="table">
-                <table class="table">
-                  <thead v-if="rowDataVegetal.length">
-                    <th scope="col">Name</th>
-                    <th scope="col">Abono (en Kg)</th>
-                    <th scope="col">Pesticidas (en Kg)</th>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(item, index) in rowDataVegetal" :key="item.id">
-                      <td>{{ item.selectedVegetal.name }}</td>
-                      <td>{{ item.fertilizerVegetal }}</td>
-                      <td>{{ item.pesticideVegetal }}</td>
-                      <td>
-                        <b-button size="sm"
-                          variant="outline-danger"
-                          @click="deleteVegetal(index)"
-                          >Eliminar</b-button
-                        >
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div >
-              <b-button variant="outline-secondary" size="sm" style="text-align: end;" @click="addNewProduct"
+
+            <div>
+              <b-button
+                variant="outline-secondary"
+                size="sm"
+                style="text-align: end"
+                @click="addNewProduct"
                 >Guardar producto</b-button
               >
             </div>
@@ -862,7 +707,6 @@ export default {
       disabledTab5: true,
 
       listTypeProd: [],
-      selectedTypeProd: "",
       mensajeGeneralInfo: "",
       productName: "",
       productDescription: "",
@@ -870,20 +714,15 @@ export default {
 
       Water: "",
       Electricity: "",
-      listAnimals: [],
-      idAnimal: "",
-      selectedAnimal: "",
-      quantityAnimal: "",
-      isAnimalType: null,
-      isVegetalType: null,
-      rowDataAnimal: [],
-      mensajeAnimal: "",
-      listVegetals: [],
-      selectedVegetal: "",
-      fertilizerVegetal: "",
-      pesticideVegetal: "",
-      rowDataVegetal: [],
-      mensajeVegetal: "",
+      listFoodTypes: [],
+      listFoods: [],
+      idFood: "",
+      selectedFood: "",
+      selectedFoodType: "",
+      quantityFood: "",
+      rowDataFood: [],
+      mensajeFood: "",
+
       mensajeProcurement: "",
 
       listTransports: [],
@@ -903,8 +742,7 @@ export default {
       rowDataRecipient: [],
       mensajeRecipient: "",
 
-      animalInstances: [],
-      vegetalInstances: [],
+      foodInstances: [],
       transportInstances: [],
       recipientInstances: [],
     };
@@ -916,10 +754,11 @@ export default {
   },
   mounted() {
     this.getAllTypesProd();
-    this.getAllAnimals();
-    this.getAllVegetals();
+
     this.getAllTransports();
     this.getAllRecipients();
+    this.getAllFoodTypes();
+    this.getAllFoods();
   },
   methods: {
     getAllTypesProd() {
@@ -927,12 +766,14 @@ export default {
         this.listTypeProd = res.data.message;
       });
     },
+    changeFoodType(typeFood) {
+      this.getAllFoodsByTypeProd(typeFood);
+    },
     checkGeneralInfo() {
       if (
         this.productName == "" ||
         this.productDescription == "" ||
-        this.productOrigin == "" ||
-        this.selectedTypeProd == ""
+        this.productOrigin == ""
       )
         this.mensajeGeneralInfo = "Todos los campos son obligatorios";
       else this.mensajeGeneralInfo = "";
@@ -977,20 +818,6 @@ export default {
         this.mensajeProcurement = "Todos los campos son obligatorios";
       else this.mensajeProcurement = "";
     },
-    checkInfoAnimal() {
-      if (this.selectedAnimal == "" || this.quantityAnimal == "")
-        this.mensajeAnimal = "Todos los campos del animal son obligatorios";
-      else this.mensajeAnimal = "";
-    },
-    checkInfoVegetal() {
-      if (
-        this.selectedVegetal == "" ||
-        this.pesticideVegetal == "" ||
-        this.fertilizerVegetal == ""
-      )
-        this.mensajeVegetal = "Todos los campos del vegetal son obligatorios";
-      else this.mensajeVegetal = "";
-    },
     checkInfoTransportAdded() {
       if (
         this.selectedTransport.name == "" ||
@@ -1010,22 +837,25 @@ export default {
         this.mensajeRecipient = "Todos los campos del envase son obligatorios";
       else this.mensajeRecipient = "";
     },
-    deleteVegetal(index) {
-      this.rowDataVegetal.splice(index, 1);
-      this.vegetalInstances.splice(index, 1);
+    checkInfoFood() {
+      if (this.selectedFood == "" || this.quantityFood == "")
+        this.mensajeFood = "Todos los campos del alimento son obligatorios";
+      else this.mensajeFood = "";
     },
-    getAllVegetals() {
-      axios.get("/getAllVegetals").then((res) => {
-        this.listVegetals = res.data.message;
+    getAllFoodTypes() {
+      axios.get("/getAllTypeProd").then((res) => {
+        this.listFoodTypes = res.data.message;
       });
     },
-    isAnimal(event) {
-      var optionText = event.target.value;
-      this.Water = optionText;
+    getAllFoodsByTypeProd(typeFood) {
+      axios.get("/getAllFoodsByTypeProd/" + typeFood).then((res) => {
+        this.listFoods = res.data.message;
+      });
     },
-    getAllAnimals() {
-      axios.get("/getAllAnimals").then((res) => {
-        this.listAnimals = res.data.message;
+
+    getAllFoods() {
+      axios.get("/getAllFoods").then((res) => {
+        this.listFoods = res.data.message;
       });
     },
     deleteTransport(index) {
@@ -1051,6 +881,48 @@ export default {
         (x) => x.name == this.selectedTransport.name
       ).capacity;
     },
+    deleteFood(index) {
+      this.foodInstances.splice(index, 1);
+      this.rowDataFood.splice(index, 1);
+    },
+    addFood() {
+      this.checkInfoFood();
+      if (this.mensajeFood == "") {
+        var newFood = {
+          selectedFood: this.selectedFood,
+          quantityFood: this.quantityFood,
+          CO2PerKg: this.CO2PerKg,
+        };
+        this.rowDataFood.push(newFood);
+        this.createFoodInstances(newFood);
+        this.selectedFoodType = "";
+        this.selectedFood = "";
+        this.quantityFood = "";
+      }
+    },
+    createFoodInstances(newFood) {
+      let newFoodInstance = {
+        food: newFood.selectedFood,
+        quantity: newFood.quantityFood,
+      };
+      axios
+        .post("/addFoodInstance", newFoodInstance, {
+          headers: {
+            authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then(
+          (res) => {
+            this.error = "";
+            this.mensaje = "Alimento creado";
+            this.name = "";
+            this.foodInstances.push(newFoodInstance);
+          },
+          (err) => {
+            this.error = err.response.data.error;
+          }
+        );
+    },
     deleteRecipient(index) {
       this.rowDataRecipient.splice(index, 1);
       this.recipientInstances.splice(index, 1);
@@ -1059,85 +931,6 @@ export default {
       axios.get("/getAllRecipients").then((res) => {
         this.listRecipients = res.data.message;
       });
-    },
-    deleteAnimal(index) {
-      this.rowDataAnimal.splice(index, 1);
-      this.animalInstances.splice(index, 1);
-    },
-    addAnimal() {
-      this.checkInfoAnimal();
-      if (this.mensajeAnimal == "") {
-        var newAnimal = {
-          selectedAnimal: this.selectedAnimal,
-          quantityAnimal: this.quantityAnimal,
-        };
-        this.rowDataAnimal.push(newAnimal);
-        this.createAnimalInstances(newAnimal);
-        this.selectedAnimal = "";
-        this.quantityAnimal = "";
-      }
-    },
-    createAnimalInstances(newAnimal) {
-      let newAnimalInstance = {
-        animal: newAnimal.selectedAnimal,
-        quantity: newAnimal.quantityAnimal,
-      };
-      axios
-        .post("/addAnimalInstance", newAnimalInstance, {
-          headers: {
-            authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        })
-        .then(
-          (res) => {
-            this.error = "";
-            this.mensaje = "Producto creado";
-            this.name = "";
-            this.animalInstances.push(newAnimalInstance);
-          },
-          (err) => {
-            this.error = err.response.data.error;
-          }
-        );
-    },
-    addVegetal() {
-      this.checkInfoVegetal();
-      if (this.mensajeVegetal == "") {
-        var newVegetal = {
-          selectedVegetal: this.selectedVegetal,
-          fertilizerVegetal: this.fertilizerVegetal,
-          pesticideVegetal: this.pesticideVegetal,
-        };
-        this.rowDataVegetal.push(newVegetal);
-        this.createVegetalInstances(newVegetal);
-
-        this.fertilizerVegetal = "";
-        this.pesticideVegetal = "";
-      }
-    },
-    createVegetalInstances(newVegetal) {
-      let newVegetalInstance = {
-        vegetal: newVegetal.selectedVegetal,
-        pesticide: newVegetal.pesticideVegetal,
-        fertilizer: newVegetal.fertilizerVegetal,
-      };
-      axios
-        .post("/addVegetalInstance", newVegetalInstance, {
-          headers: {
-            authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        })
-        .then(
-          (res) => {
-            this.error = "";
-            this.mensaje = "Producto creado";
-            this.name = "";
-            this.vegetalInstances.push(newVegetalInstance);
-          },
-          (err) => {
-            this.error = err.response.data.error;
-          }
-        );
     },
     addTransport() {
       this.checkInfoTransportAdded();
@@ -1224,10 +1017,9 @@ export default {
         //Procurement
         water: this.Water,
         electricity: this.Electricity,
-        //crear las AnimalInstances
-        animals: this.animalInstances,
-        //crear las VegetalInstances
-        vegetals: this.vegetalInstances,
+        //crear las FoodInstances
+        foods: this.foodInstances,
+
         //crear las TransportInstances
         transports: this.transportInstances,
         //crear las WasteInstances

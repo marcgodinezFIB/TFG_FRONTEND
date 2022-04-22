@@ -2,6 +2,16 @@
 <div>
   <b-card>
     <b-tabs pills small card vertical>
+      <b-tab title="Añadir alimento">
+        <b-card-text>
+      <CreateFood/>
+        </b-card-text>
+      </b-tab>
+      <b-tab title="Lista de alimentos">
+        <b-card-text>
+      <FoodList/>
+        </b-card-text>
+      </b-tab>
       <b-tab title="Añadir transporte">
         <b-card-text>
       <CreateTransport/>
@@ -60,6 +70,9 @@
 <script>
 
 import axios from 'axios';
+import CreateFood from './AdminTools/CreateFood.vue'
+import FoodList from './AdminTools/FoodList.vue'
+
 import CreateTransport from './AdminTools/CreateTransport.vue'
 import TransportList from './AdminTools/TransportList.vue'
 import TypeProdList from './AdminTools/TypeProdList.vue'
@@ -74,7 +87,7 @@ import CreateVegetal from './AdminTools/CreateVegetal.vue'
 
 export default {
   name: 'AdminTools',
-    components: { CreateTransport, CreateTypeProd,CreateAnimal, CreateRecipient,CreateVegetal, TransportList, TypeProdList, AnimalList, VegetalList, RecipientList},
+    components: { CreateFood, FoodList, CreateTransport, CreateTypeProd,CreateAnimal, CreateRecipient,CreateVegetal, TransportList, TypeProdList, AnimalList, VegetalList, RecipientList},
 
 data() {
   return { 
