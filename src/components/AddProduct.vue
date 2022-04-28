@@ -5,12 +5,15 @@
         <b-tab title="Información general" :active="step === 1">
           <b-card-text>
             <div class="row">
+              <div class="col-3"></div>
               <div class="col">
                 <div class="row">
                   <div class="col-3">
                     <label>Nombre:</label>
                   </div>
-                  <div class="col-3">
+                </div>
+                <div class="row">
+                  <div class="col-6">
                     <b-form-input
                       trim
                       type="text"
@@ -23,9 +26,11 @@
                 </div>
                 <div class="row">
                   <div class="col-3">
-                    <label>Descripcion:</label>
+                    <label>Descripción:</label>
                   </div>
-                  <div class="col-3">
+                </div>
+                <div class="row">
+                  <div class="col-6">
                     <b-form-input
                       trim
                       type="text"
@@ -40,7 +45,9 @@
                   <div class="col-3">
                     <label>Origen:</label>
                   </div>
-                  <div class="col-3">
+                </div>
+                <div class="row">
+                  <div class="col-6">
                     <b-form-input
                       trim
                       type="text"
@@ -49,6 +56,46 @@
                       class="form-control my-2"
                       :disabled="isDisabled"
                     />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-3">
+                    <div class="row"><label>Cantidad:</label></div>
+                    <div class="row"><a>(en Kg)</a></div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <b-form-input
+                      trim
+                      type="number"
+                      required
+                      v-model="productQuantity"
+                      class="form-control my-2"
+                      :disabled="isDisabled"
+                    />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-3">
+                    <label>Tipo de producto:</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <select
+                      v-model="productType"
+                      @change="changeFoodType(productType.name)"
+                    >
+                      <option
+                        v-for="(foodtype, _id) in listFoodTypes"
+                        :value="foodtype"
+                        :disabled="isDisabledProcurement"
+                        :key="_id"
+                      >
+                        {{ foodtype.name }}
+                      </option>
+                    </select>
                   </div>
                 </div>
                 <div class="row mt-3">
@@ -137,7 +184,6 @@
                         :value="foodtype"
                         :disabled="isDisabledProcurement"
                         :key="_id"
-                        :class="{ 'input--error': !food }"
                       >
                         {{ foodtype.name }}
                       </option>
@@ -149,13 +195,12 @@
                   <div class="col-4 dropdown">
                     <select v-model="selectedFood">
                       <option
-                        v-for="(food, _id) in listFoods"
-                        :value="food"
+                        v-for="(item, _id) in listFoods"
+                        :value="item"
                         :disabled="isDisabledProcurement"
                         :key="_id"
-                        :class="{ 'input--error': !food }"
                       >
-                        {{ food.name }}
+                        {{ item.name }}
                       </option>
                     </select>
                   </div>
@@ -182,11 +227,11 @@
                       size="sm"
                       variant="outline-secondary"
                       @click="addFood"
-                      >Add</b-button
+                      >Añadir</b-button
                     >
                   </div>
                 </div>
-                <div class="row">
+                <div class="row mt-3">
                   <div class="col">
                     <b-alert
                       v-if="mensajeProcurement != ''"
@@ -316,7 +361,7 @@
                       variant="outline-secondary"
                       :disabled="isDisabledTransport"
                       @click="addTransport"
-                      >Add</b-button
+                      >Añadir</b-button
                     >
                   </div>
                 </div>
@@ -423,7 +468,7 @@
                       size="sm"
                       variant="outline-secondary"
                       @click="addRecipient"
-                      >Add</b-button
+                      >Añadir</b-button
                     >
                   </div>
                 </div>
@@ -470,10 +515,7 @@
             <div class="row mt-3">
               <div class="col-6" style="text-align: end">
                 <b-button-group
-                  ><b-button
-                    size="sm"
-                    variant="outline-secondary"
-                    @click="EditStep4"
+                  ><b-button size="sm" variant="outline-secondary"
                     >Editar</b-button
                   >
                   <b-button
@@ -711,6 +753,8 @@ export default {
       productName: "",
       productDescription: "",
       productOrigin: "",
+      productType: "",
+      productQuantity: "",
 
       Water: "",
       Electricity: "",
@@ -751,6 +795,7 @@ export default {
     if (localStorage.getItem("token") === null) {
       this.$router.push("/login");
     }
+    this.loadProduct();
   },
   mounted() {
     this.getAllTypesProd();
@@ -761,6 +806,58 @@ export default {
     this.getAllFoods();
   },
   methods: {
+    loadProduct() {
+      if (this.$route.query.id != "") {
+        axios.get("getProduct/" + this.$route.query.id).then((res) => {
+          this.disabledTab2 = false;
+          this.disabledTab3 = false;
+          this.disabledTab4 = false;
+          this.disabledTab5 = false;
+          //GeneralInfo
+          this.isDisabled = true;
+          this.productName = res.data.product.name;
+          this.productDescription = res.data.product.description;
+          this.productOrigin = res.data.product.origin;
+          this.productType = res.data.product.description;
+          this.productQuantity = res.data.product.quantity;
+
+          //Produccion
+          this.isDisabledProcurement = true;
+          this.Water = res.data.product.water;
+          this.Electricity = res.data.product.electricity;
+          //Food
+          for (var i = 0; i < res.data.product.foods.length; ++i) {
+            var auxFood = {
+              selectedFood: res.data.product.foods[i].food,
+              quantityFood: res.data.product.foods[i].quantity,
+              CO2PerKg: res.data.product.foods[i].CO2PerKg,
+            };
+            this.rowDataFood.push(auxFood);
+          }
+
+          //Transport
+          for (var j = 0; j < res.data.product.transport.length; ++j) {
+            var auxTransport = {
+              selectedTransport: res.data.product.transport[j].transport,
+              capacity: res.data.product.transport[j].capacity,
+              distance: res.data.product.transport[j].distance,
+
+            };
+            this.rowData.push(auxTransport);
+          }
+
+
+          //Recipient
+          for (var k = 0; k < res.data.product.recipient.length; ++k) {
+            var auxRecipient = {
+              selectedRecipient: res.data.product.recipient[k].recipient,
+              dimensionsRecipient: res.data.product.recipient[k].dimensions,
+            };
+            this.rowDataRecipient.push(auxRecipient);
+          }
+        });
+      }
+    },
     getAllTypesProd() {
       axios.get("/getAllTypeProd").then((res) => {
         this.listTypeProd = res.data.message;
@@ -1013,7 +1110,8 @@ export default {
         name: this.productName,
         description: this.productDescription,
         origin: this.productOrigin,
-        typeProd: this.typeProd, //o Id?
+        productQuantity: this.productQuantity,
+        typeProd: this.productType, //o Id?
         //Procurement
         water: this.Water,
         electricity: this.Electricity,

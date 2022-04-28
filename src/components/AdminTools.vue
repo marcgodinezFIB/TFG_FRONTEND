@@ -1,103 +1,67 @@
 <template>
-<div>
-  <b-card>
-    <b-tabs pills small card vertical>
-      <b-tab title="Añadir alimento">
-        <b-card-text>
-      <CreateFood/>
-        </b-card-text>
-      </b-tab>
-      <b-tab title="Lista de alimentos">
-        <b-card-text>
-      <FoodList/>
-        </b-card-text>
-      </b-tab>
-      <b-tab title="Añadir transporte">
-        <b-card-text>
-      <CreateTransport/>
-        </b-card-text>
-      </b-tab>
-      <b-tab title="Lista de transportes">
-        <b-card-text>
-      <TransportList/>
-        </b-card-text>
-      </b-tab>
-      <b-tab title="Añadir tipo de producto">
-        <b-card-text>
-      <CreateTypeProd/>
-        </b-card-text>
-      </b-tab>
-      <b-tab title="Lista de tipo de productos">
-        <b-card-text>
-      <TypeProdList/>
-        </b-card-text>
-      </b-tab>
-      <b-tab title="Añadir animal">
-        <b-card-text>
-      <CreateAnimal/>
-        </b-card-text>
-      </b-tab>
-      <b-tab title="Lista de animales">
-        <b-card-text>
-      <AnimalList/>
-        </b-card-text>
-      </b-tab>
-      <b-tab title="Añadir vegetal">
-        <b-card-text>
-      <CreateVegetal/>
-        </b-card-text>
-      </b-tab>
-      <b-tab title="Lista de vegetales">
-        <b-card-text>
-      <VegetalList/>
-        </b-card-text>
-      </b-tab>
-      <b-tab title="Añadir envase">
-        <b-card-text>
-      <CreateRecipient/>
-        </b-card-text>
-      </b-tab>
-      <br>
-      <b-tab title="Lista de envases">
-        <b-card-text>
-      <RecipientList/>
-        </b-card-text>
-      </b-tab>
-    </b-tabs>
-  </b-card>
-</div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" :key="$route.fullPath">
+            <div class="container-fluid">
+                <img style="height: 40px;width: 40px;" src="../assets/css/arbol1.png"/><a class="navbar-brand" href="/">CarbonFootprintScan</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+            <div class="collapse navbar-collapse " id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" v-if="isLoggedIn" href="/addproduct">Añadir producto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" v-if="isLoggedIn" href="/productlist">Lista de productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" v-if="isLoggedIn" href="/foods">Alimentos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" v-if="isLoggedIn" href="/transports">Transportes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" v-if="isLoggedIn" href="/recipients">Envases</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" v-if="isLoggedIn" href="/typeprods">Tipos de productos</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" v-if="!isLoggedIn" href="/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" v-if="!isLoggedIn" href="/signup">Sign up</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" v-if="isLoggedIn" @click="logout" href="/login">Logout</a>
+                    </li>
+                </ul>
+            </div>
+            </div>
+        </nav>
 </template>
+
 <script>
-
-import axios from 'axios';
-import CreateFood from './AdminTools/CreateFood.vue'
-import FoodList from './AdminTools/FoodList.vue'
-
-import CreateTransport from './AdminTools/CreateTransport.vue'
-import TransportList from './AdminTools/TransportList.vue'
-import TypeProdList from './AdminTools/TypeProdList.vue'
-import AnimalList from './AdminTools/AnimalList.vue'
-import VegetalList from './AdminTools/VegetalList.vue'
-import RecipientList from './AdminTools/RecipientList.vue'
-
-import CreateTypeProd from './AdminTools/CreateTypeProd.vue'
-import CreateAnimal from './AdminTools/CreateAnimal.vue'
-import CreateRecipient from './AdminTools/CreateRecipient.vue'
-import CreateVegetal from './AdminTools/CreateVegetal.vue'
-
 export default {
-  name: 'AdminTools',
-    components: { CreateFood, FoodList, CreateTransport, CreateTypeProd,CreateAnimal, CreateRecipient,CreateVegetal, TransportList, TypeProdList, AnimalList, VegetalList, RecipientList},
-
-data() {
-  return { 
-  };
-},
-  created() {
-    //user is not authorized
-    if (localStorage.getItem('token') === null) {
-      this.$router.push('/login');
+    name: 'NavBar',
+    data() {
+        return {
+        }
+    },
+    computed: {
+        isLoggedIn() {
+            return !!localStorage.getItem('token')
+        }
+    },
+    methods: {
+        logout() {
+            localStorage.clear();
+            this.$router.go('/login');
+        }
     }
-  }
 }
 </script>

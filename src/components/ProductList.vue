@@ -79,14 +79,22 @@
       small
       @filtered="onFiltered"
     >
+    
       <template #cell(actions)="row">
         <b-button-group>
+          <b-button
+            variant="outline-secondary"
+            size="sm"
+            @click="viewProduct(row.item, row.index)"
+          >
+            Ver producto
+          </b-button>
           <b-button
             variant="outline-danger"
             size="sm"
             @click="deleteProduct(row.item, row.index)"
           >
-            Delete product
+            Eliminar producto
           </b-button></b-button-group
         >
       </template>
@@ -238,6 +246,9 @@ export default {
         this.items.splice(index, 1);
       }
     },
+    viewProduct(item, index) {
+      this.$router.push({path : '/AddProduct?id=' + item._id})
+    }
   },
 };
 </script>
