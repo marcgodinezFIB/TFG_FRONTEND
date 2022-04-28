@@ -5,13 +5,25 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
-            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <div class="collapse navbar-collapse " id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" v-if="isLoggedIn" href="/addproduct">Añadir producto</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" v-if="isLoggedIn" href="/productlist">Lista de productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" v-if="isLoggedIn" href="/foods">Alimentos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" v-if="isLoggedIn" href="/transports">Transportes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" v-if="isLoggedIn" href="/recipients">Envases</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" v-if="isLoggedIn" href="/typeprods">Tipos de productos</a>
                     </li>
                 </ul>
             </div>
@@ -23,9 +35,7 @@
                     <li class="nav-item">
                         <a class="nav-link" v-if="!isLoggedIn" href="/signup">Sign up</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" v-if="isLoggedIn" href="/admintools">Admin Tools</a>
-                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link" v-if="isLoggedIn" @click="logout" href="/login">Logout</a>
                     </li>
@@ -36,7 +46,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 export default {
     name: 'NavBar',
     data() {
