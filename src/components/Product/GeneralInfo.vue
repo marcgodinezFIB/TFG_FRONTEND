@@ -61,7 +61,7 @@
       </div>
       <div class="row mt-3">
         <div class="col-6" style="text-align: end">
-          <b-button @click="NextStep">Guardar y continuar</b-button>
+          <b-button variant="outline-secondary" @click="NextStep">Guardar y continuar</b-button>
         </div>
       </div>
       <div class="row mt-3">

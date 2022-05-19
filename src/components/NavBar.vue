@@ -14,6 +14,9 @@
                         <a class="nav-link" v-if="isLoggedIn" href="/productlist">Lista de productos</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" v-if="isLoggedIn" href="/typeprods">Tipos de alimentos</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" v-if="isLoggedIn" href="/foods">Alimentos</a>
                     </li>
                     <li class="nav-item">
@@ -22,9 +25,7 @@
                     <li class="nav-item">
                         <a class="nav-link" v-if="isLoggedIn" href="/recipients">Envases</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" v-if="isLoggedIn" href="/typeprods">Tipos de productos</a>
-                    </li>
+                    
                 </ul>
             </div>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
@@ -65,3 +66,9 @@ export default {
     }
 }
 </script>
+<style>
+  *{
+  font-family: "Roboto";
+
+}
+</style>

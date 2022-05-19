@@ -79,7 +79,6 @@
       small
       @filtered="onFiltered"
     >
-    
       <template #cell(actions)="row">
         <b-button-group>
           <b-button
@@ -118,62 +117,68 @@ export default {
       fields: [
         {
           key: "name",
-          label: "name",
+          label: "Nombre",
           sortable: true,
           sortDirection: "desc",
           class: "text-center",
         },
         {
           key: "description",
-          label: "Description",
+          label: "Descripción",
           sortable: true,
           class: "text-center",
         },
         {
-          key: "origin",
-          label: "Origin",
+          key: "originCity",
+          label: "Ciudad origen",
+          sortable: true,
+          class: "text-center",
+        },
+        {
+          key: "totalDistance",
+          label: "Distancia",
           sortable: true,
           class: "text-center",
         },
         {
           key: "CO2Food",
-          label: "CO2Food",
+          label: "KgCO2e por alimentos",
           sortable: true,
           class: "text-center",
         },
         {
           key: "CO2Water",
-          label: "CO2Water",
+          label: "KgCO2e por agua",
           sortable: true,
           class: "text-center",
         },
         {
           key: "CO2Electricity",
-          label: "CO2Electricity",
+          label: "KgCO2e por electricidad",
           sortable: true,
           class: "text-center",
         },
         {
           key: "CO2Procurement",
-          label: "CO2Procurement",
+          label: "KgCO2e por producción",
           sortable: true,
           class: "text-center",
         },
         {
           key: "CO2Transport",
-          label: "CO2Transport",
+          label: "KgCO2e por transportes",
           sortable: true,
           class: "text-center",
         },
         {
           key: "CO2Recipient",
-          label: "CO2Recipient",
+          label: "KgCO2e por envases",
           sortable: true,
           class: "text-center",
         },
         {
           key: "CO2Total",
-          label: "CO2Total",
+          label: "KgCO2e total",
           sortable: true,
           class: "text-center",
         },
@@ -181,7 +186,7 @@ export default {
       ],
       totalRows: 1,
       currentPage: 1,
-      perPage: 5,
+      perPage: 25,
       pageOptions: [5, 10, 15, { value: 100, text: "Show a lot" }],
       sortBy: "",
       sortDesc: false,
@@ -246,8 +251,11 @@ export default {
         this.items.splice(index, 1);
       }
     },
-    viewProduct(item, index) {
+        editProduct(item, index) {
       this.$router.push({path : '/AddProduct?id=' + item._id})
+    },
+    viewProduct(item, index) {
+      this.$router.push({path : '/AddProduct?id=' + item._id + "&v=1"})
     }
   },
 };
